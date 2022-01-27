@@ -22,7 +22,6 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
     #region Main Variables
 
     public PhotonView photonView;
-
     //When true, tells the game that this is a photon player
     [SerializeField] private bool isPhotonPlayer;
 
@@ -622,8 +621,11 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
             {
                 return;
             }
+            if (obj.transform.CompareTag("Boundary")) {
+              SpawnPlayerSnakeScript.Instance.levelFail.SetActive(true);
+            }
 
-            if (obj.transform.CompareTag("Food"))
+                if (obj.transform.CompareTag("Food"))
             {
                 length++;
 
@@ -1214,6 +1216,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         }
         else if (obj.transform.CompareTag("Body") || obj.transform.CompareTag("Robot"))
         {
+           SpawnPlayerSnakeScript.Instance.levelFail.gameObject.SetActive(true);
             int middleBodyPartNum = 0;
             int endBodyPartNum = 0;
 
@@ -2410,4 +2413,6 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
     }
 
     #endregion
+
+   
 }

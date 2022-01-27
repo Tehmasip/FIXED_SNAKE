@@ -216,32 +216,32 @@ namespace Photon_Multiplayer_Scripts.Photon
             base.OnLeftRoom();
         }
 
-        public override void OnPlayerEnteredRoom(Player newPlayer)
-        {
-            base.OnPlayerEnteredRoom(newPlayer);
-            Debug.Log("New player entered");
-            _photonPlayers = PhotonNetwork.PlayerList;
-            playersInRoom++;
-            //Delay start
-            if (MultiplayerSettings.Instance.delayStart)
-            {
-                Debug.Log("Waiting for players\n " + playersInRoom + " \\ "
-                          + MultiplayerSettings.Instance.maxPlayers);
-                //Ready to count
-                if (playersInRoom > 1)
-                {
-                    _readyToCount = true;
-                }
-                //Max Players reached
-                if (playersInRoom == MultiplayerSettings.Instance.maxPlayers)
-                {
-                    _readyToStart = true;
-                    if (!PhotonNetwork.IsMasterClient)
-                        return;
-                    PhotonNetwork.CurrentRoom.IsOpen = false;
-                }
-            }
-        }
+        //public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+        //{
+        //    base.OnPlayerEnteredRoom(newPlayer);
+        //    Debug.Log("New player entered");
+        //    _photonPlayers = PhotonNetwork.PlayerList;
+        //    playersInRoom++;
+        //    //Delay start
+        //    if (MultiplayerSettings.Instance.delayStart)
+        //    {
+        //        Debug.Log("Waiting for players\n " + playersInRoom + " \\ "
+        //                  + MultiplayerSettings.Instance.maxPlayers);
+        //        //Ready to count
+        //        if (playersInRoom > 1)
+        //        {
+        //            _readyToCount = true;
+        //        }
+        //        //Max Players reached
+        //        if (playersInRoom == MultiplayerSettings.Instance.maxPlayers)
+        //        {
+        //            _readyToStart = true;
+        //            if (!PhotonNetwork.IsMasterClient)
+        //                return;
+        //            PhotonNetwork.CurrentRoom.IsOpen = false;
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// For starting the multiplayer game
@@ -281,7 +281,7 @@ namespace Photon_Multiplayer_Scripts.Photon
         {
             Debug.Log("Room joined");
             //Getting room info
-            _photonPlayers = PhotonNetwork.PlayerList;
+            //_photonPlayers = PhotonNetwork.PlayerList;
             playersInRoom++;
             playerInGame = _photonPlayers.Length;
             myNumberInRoom = playersInRoom;

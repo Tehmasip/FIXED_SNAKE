@@ -7,7 +7,7 @@ namespace SnakeScripts
     /// <summary>
     /// A script that will spawn a snake head based on the number passed in the editor
     /// </summary>
-    public class SpawnPlayerSnakeScript : MonoBehaviour
+    public class SpawnPlayerSnakeScript : Singleton<SpawnPlayerSnakeScript>
     {
         [Header("Scene variable references")]
         //Reference to count and tokens text
@@ -21,13 +21,15 @@ namespace SnakeScripts
 
         //Spawn position
         private Vector3 _snakeSpawnPosition;
-        
+        public GameObject levelFail;
+        public MiniMapController miniMap;
         private void Start()
         {
             _snakeSpawnPosition = new Vector3(-1.37f, 4.6f, 0);
             SpawnSnakeInScene();
+            miniMap.target = GameObject.FindGameObjectWithTag("Player").transform;
         }
-
+      
         /// <summary>
         /// This function spawns a player snake based on the skinID
         /// </summary>
