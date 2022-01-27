@@ -1208,6 +1208,7 @@ GameObject:
   - component: {fileID: 525011382}
   - component: {fileID: 525011381}
   - component: {fileID: 525011380}
+  - component: {fileID: 525011383}
   m_Layer: 5
   m_Name: PasswordIn
   m_TagString: Untagged
@@ -1346,6 +1347,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 525011378}
   m_CullTransparentMesh: 1
+--- !u!114 &525011383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525011378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showHtmlElement: 0
 --- !u!1 &538649315
 GameObject:
   m_ObjectHideFlags: 0
@@ -6879,6 +6893,7 @@ GameObject:
   - component: {fileID: 784059576}
   - component: {fileID: 784059575}
   - component: {fileID: 784059574}
+  - component: {fileID: 784059577}
   m_Layer: 5
   m_Name: EmailIn
   m_TagString: Untagged
@@ -7017,6 +7032,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 784059572}
   m_CullTransparentMesh: 1
+--- !u!114 &784059577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784059572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showHtmlElement: 0
 --- !u!1 &798228538
 GameObject:
   m_ObjectHideFlags: 0
@@ -7448,6 +7476,7 @@ GameObject:
   - component: {fileID: 1195027054}
   - component: {fileID: 1195027053}
   - component: {fileID: 1195027052}
+  - component: {fileID: 1195027055}
   m_Layer: 5
   m_Name: UsernameIn
   m_TagString: Untagged
@@ -7586,6 +7615,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1195027050}
   m_CullTransparentMesh: 1
+--- !u!114 &1195027055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195027050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showHtmlElement: 0
 --- !u!1 &1237051083
 GameObject:
   m_ObjectHideFlags: 0
@@ -8570,6 +8612,7 @@ GameObject:
   - component: {fileID: 1786755283}
   - component: {fileID: 1786755282}
   - component: {fileID: 1786755281}
+  - component: {fileID: 1786755284}
   m_Layer: 5
   m_Name: PasswordIn
   m_TagString: Untagged
@@ -8708,6 +8751,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1786755279}
   m_CullTransparentMesh: 1
+--- !u!114 &1786755284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786755279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showHtmlElement: 0
 --- !u!1 &1826201457
 GameObject:
   m_ObjectHideFlags: 0
@@ -9030,6 +9086,7 @@ GameObject:
   - component: {fileID: 1942769637}
   - component: {fileID: 1942769636}
   - component: {fileID: 1942769635}
+  - component: {fileID: 1942769638}
   m_Layer: 5
   m_Name: EmailIn
   m_TagString: Untagged
@@ -9168,6 +9225,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942769633}
   m_CullTransparentMesh: 1
+--- !u!114 &1942769638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942769633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showHtmlElement: 0
 --- !u!1 &2094087650
 GameObject:
   m_ObjectHideFlags: 0
