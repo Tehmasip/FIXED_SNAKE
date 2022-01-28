@@ -19,7 +19,8 @@ namespace Photon_Multiplayer_Scripts.Photon.Game_Controllers
 
         [Header("Spawn Points")] 
         public Transform[] spawnPoints;
-
+        public GameObject LevelFail;
+        //public static bool isFail;
         #endregion
 
         #region Unity Functions

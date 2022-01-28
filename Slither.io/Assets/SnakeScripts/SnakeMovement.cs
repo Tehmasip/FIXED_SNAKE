@@ -67,6 +67,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
     public int numberOfSnakesKilled = 0;
     public float boostSpeed = 0;
     public bool hasLongReachAbility = false;
+    public bool isAI;
 
     public int curAmountOfRobot, maxAmountOfRobot = 30; // The max amount of robots in the map
     public GameObject[] robotGenerateTarget; // Store the objects of robot snakes
@@ -120,6 +121,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
     private Vector3 _foreignPlayerPosition = new Vector3();
     private Vector3 _foreignPlayerRotation = new Vector3();
 
+    public GameSetup gameSetup;
     #endregion
 
     #region Photon RPCs, and Observable Region
@@ -465,6 +467,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         }
 
         SpawnBodyParts();
+        
     }
 
     // use this for initialization
@@ -530,6 +533,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         // It determines the skin of the snake, gained from initial interface
         skinID = PlayerPrefs.GetInt("skinID", 1);
         nickName = PlayerPrefs.GetString("nickname", "");
+        gameSetup = GameObject.FindObjectOfType<GameSetup>();
     }
 
     // update is called once per frame
@@ -622,7 +626,14 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
             {
                 return;
             }
-
+            if (obj.transform.CompareTag("Boundary")) {
+                gameSetup = GameObject.FindObjectOfType<GameSetup>();
+                SpawnPlayerSnakeScript.isFail = true;
+                if (isAI)
+                    SpawnPlayerSnakeScript.Instance.levelFailDlg.SetActive(true);
+                else
+                    gameSetup.LevelFail.SetActive(true);
+            }
             if (obj.transform.CompareTag("Food"))
             {
                 length++;
@@ -1214,6 +1225,12 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         }
         else if (obj.transform.CompareTag("Body") || obj.transform.CompareTag("Robot"))
         {
+            gameSetup = GameObject.FindObjectOfType<GameSetup>();
+            SpawnPlayerSnakeScript.isFail = true;
+            if (isAI)
+                SpawnPlayerSnakeScript.Instance.levelFailDlg.SetActive(true);
+            else
+                gameSetup.LevelFail.SetActive(true);
             int middleBodyPartNum = 0;
             int endBodyPartNum = 0;
 

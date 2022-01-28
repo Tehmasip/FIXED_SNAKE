@@ -21,9 +21,10 @@ namespace Photon_Multiplayer_Scripts.Photon.Game_Controllers
         private PhotonView _pV;
         //Avatar
         public GameObject myAvatar;
+        public MiniMap miniMap;
 
         #region Unity Functions
-
+        
         private void Start()
         {
             //Getting the canvas texts using tag 
@@ -33,7 +34,7 @@ namespace Photon_Multiplayer_Scripts.Photon.Game_Controllers
             tokensText = tokensObject.GetComponent<Text>();
             GameObject snakeTextObject = GameObject.FindGameObjectWithTag("Snake Text");
             snakesText = snakeTextObject.GetComponent<Text>();
-            
+            miniMap = GameObject.FindObjectOfType<MiniMap>();
             //PhotonView
             _pV = GetComponent<PhotonView>();
             //Random Spawn
@@ -54,7 +55,7 @@ namespace Photon_Multiplayer_Scripts.Photon.Game_Controllers
             {
                 skinID = PlayerPrefs.GetInt("skinID");
             }
-
+            //Debug.LogError("PlayerSpawned");
             //Spawning local player
             if (_pV.IsMine)
             {
@@ -113,6 +114,7 @@ namespace Photon_Multiplayer_Scripts.Photon.Game_Controllers
                 snakeMovement.tokenText = tokensText;
                 snakeMovement.snakesKilledText = snakesText;
             }
+            miniMap.target = myAvatar.transform;
         }
 
         /// <summary>

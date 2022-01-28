@@ -70,3 +70,4 @@ MonoBehaviour:
   tokensText: {fileID: 0}
   snakesText: {fileID: 0}
   myAvatar: {fileID: 0}
+  miniMap: {fileID: 0}

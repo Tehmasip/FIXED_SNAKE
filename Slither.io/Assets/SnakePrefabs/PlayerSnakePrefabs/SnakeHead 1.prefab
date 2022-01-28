@@ -56,8 +56,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -82,7 +80,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &2593815921435263462
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -157,8 +154,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -267,8 +262,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -293,7 +286,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!54 &4525850004990483657
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -322,10 +314,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c100fc435fc3142970b374e4f0296a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonView: {fileID: 0}
+  isPhotonPlayer: 0
   snakeBodyParts: {fileID: 2562738115448665515, guid: 76d83f14301a82843b13a6be0bd9571f,
     type: 3}
-  snakeTexture: {fileID: 21300000, guid: 19925c2013d39b5dfaa4a72cb6b8be65, type: 3}
+  snakeBodyTexture: {fileID: 21300000, guid: 19925c2013d39b5dfaa4a72cb6b8be65, type: 3}
+  greenSnakeTexture: {fileID: 0}
+  blueSnakeTexture: {fileID: 0}
+  orangeSnakeTexture: {fileID: 0}
   bodyParts: []
+  snakeSidesRef: []
   Robots: []
   runBodyPartSmoothTime: 0.1
   addBodyPart: {fileID: 4000013412858886, guid: d9c5bc1f6798f1d4cb7ffd6256f7fce3,
@@ -336,8 +334,13 @@ MonoBehaviour:
   curSize: {x: 1, y: 1, z: 1}
   countText: {fileID: 0}
   tokenText: {fileID: 0}
+  snakesKilledText: {fileID: 0}
   length: 0
   tokensCollected: 50
+  numberOfSnakesKilled: 0
+  boostSpeed: 0
+  hasLongReachAbility: 0
+  isAI: 1
   curAmountOfRobot: 0
   maxAmountOfRobot: 30
   robotGenerateTarget:
@@ -358,6 +361,8 @@ MonoBehaviour:
   blue: {fileID: 2100000, guid: 569c2ebd6bce712429633c991a1cd681, type: 2}
   red: {fileID: 2100000, guid: 0a2854bc5370bf64882b8ed4e8a21e56, type: 2}
   orange: {fileID: 2100000, guid: 76db989384d6eab4bacfbb26c628f552, type: 2}
+  skinID: 0
+  gameSetup: {fileID: 0}
 --- !u!1 &8138222673766577740
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,8 +419,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -440,7 +443,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &2047159336177790904
 BoxCollider:
   m_ObjectHideFlags: 0
