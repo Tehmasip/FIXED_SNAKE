@@ -116,7 +116,10 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
     /* Make the snake run when it should run, and lose parts*/
     private float t1;
     private float t2;
-
+    private Rigidbody rb;
+    private Vector3 _direction;
+    private float _moveSpeed = 2f;
+    private Vector3 _touchPosition;
     //Variables for Photon Observable function
     private Vector3 _foreignPlayerPosition = new Vector3();
     private Vector3 _foreignPlayerRotation = new Vector3();
@@ -533,6 +536,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         // It determines the skin of the snake, gained from initial interface
         skinID = PlayerPrefs.GetInt("skinID", 1);
         nickName = PlayerPrefs.GetString("nickname", "");
+        rb = GetComponent<Rigidbody>();
         gameSetup = GameObject.FindObjectOfType<GameSetup>();
     }
 
@@ -584,15 +588,22 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
 
     private void FixedUpdate()
     {
+        Debug.Log("i");
         //Code to run if we are the Photon Player
         if (isPhotonPlayer)
         {
-            if (photonView.IsMine == false)
-            {
-                SnakeMovementOnForeignPlayer();
-                return;
-            }
-
+            //if (photonView.IsMine == false) {
+//#if UNITY_ANDROID
+//             if (  Application.platform == RuntimePlatform.Android)
+//             MoveSnakeAndriod();
+//#elif UNITY_WEBGL
+//                if (Application.platform == RuntimePlatform.WebGLPlayer)
+//                    //SnakeMovementOnForeignPlayer();
+//                    MovePlayerInputs();
+//#endif
+//                return;
+//            }
+            MovePlayerInputs();
             SnakeMove();
             SetBodySizeAndSmoothTime();
             CameraFollowSnake();
@@ -605,7 +616,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
 
             return;
         }
-
+        MovePlayerInputs();
         SnakeMove();
         SetBodySizeAndSmoothTime();
         CameraFollowSnake();
@@ -1600,9 +1611,9 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         }
     }
 
-    #endregion
+#endregion
 
-    #region Snake Collider and Sprite Renderer Functions
+#region Snake Collider and Sprite Renderer Functions
 
     [Header("Snake Collider and Sprite Renderer Variables")]
     //When true, tells the game that the snake is colliding with a collider
@@ -1721,9 +1732,9 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         );
     }
 
-    #endregion
+#endregion
 
-    #region UI Buttons
+#region UI Buttons
 
     private IEnumerator ReturnToMainMenu()
     {
@@ -1736,9 +1747,9 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         yield break;
     }
 
-    #endregion
+#endregion
 
-    #region Special Effects on Snake Head
+#region Special Effects on Snake Head
 
     //	##### added by Morgan #####
     private IEnumerator speedUpTime()
@@ -1754,9 +1765,9 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         snakeWalkSpeed = 3.5f;
     }
 
-    #endregion
+#endregion
 
-    #region Body Spawn and Scale Up Related
+#region Body Spawn and Scale Up Related
 
     /// <summary>
     /// A function that will spawn body parts and will also assign the body parts
@@ -1876,9 +1887,9 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         }
     }
 
-    #endregion
+#endregion
 
-    #region Level Food Spawning
+#region Level Food Spawning
 
     /* Gernate 200 food points before game start*/
     private void GenerateFoodBeforeBegin()
@@ -2124,15 +2135,36 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         }
     }
 
-    #endregion
+#endregion
 
-    #region Snake Movement and De-spawn body part
+#region Snake Movement and De-spawn body part
 
     //When true, tells the game that the game is reading
     private bool _isReading = false;
 
     private float _syncTime = 0.25f;
-
+    //private void MoveSnakeAndriod() {
+    //    if (Input.touchCount > 0) {
+    //        Touch touch = Input.GetTouch(0);
+    //        _touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
+    //        _touchPosition.z = 0;
+    //        _direction = (_touchPosition - transform.position);
+    //        rb.velocity = new Vector2(_direction.x, _direction.y) * _moveSpeed;
+    //        if (touch.phase == TouchPhase.Ended) {
+    //            rb.velocity = Vector2.zero;
+    //        }
+    //    }
+    //}
+    private void MovePlayerInputs() {
+        Debug.Log("here");
+        float moveHorizontal = Input.GetAxisRaw("Horizontal");
+        float moveVertical = Input.GetAxisRaw("Vertical");
+        Vector3 v3 = new Vector3(moveHorizontal, moveVertical, 1.0f);
+        Quaternion qTo = Quaternion.LookRotation(v3);
+        gameObject.transform.LookAt(v3);
+        //gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, qTo, 50 * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, qTo, 50 * Time.deltaTime);
+    }
     /// <summary>
     /// Syncs the rotation and position on the foreign player
     /// </summary>
@@ -2304,9 +2336,9 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         gameObject.transform.position = temp;
     }
 
-    #endregion
+#endregion
 
-    #region Snake Body Color Functions
+#region Snake Body Color Functions
 
     private void ColorSnake(int id)
     {
@@ -2409,9 +2441,9 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         }
     }
 
-    #endregion
+#endregion
 
-    #region UI Related
+#region UI Related
 
     // added by Yue Chen
     public void ShowAd()
@@ -2426,5 +2458,5 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         if (bestScore < curScore) PlayerPrefs.SetInt("BestScore", curScore);
     }
 
-    #endregion
+#endregion
 }
