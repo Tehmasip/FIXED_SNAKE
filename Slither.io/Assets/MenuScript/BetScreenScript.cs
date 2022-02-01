@@ -33,7 +33,7 @@ namespace MenuScript
         private float m_TokensInInventory;
         //Stores the bet amount
         private int m_CurrentBetAmount;
-
+        public GameObject showInfo;
         /// <summary>
         /// Runs when the back button is clicked
         /// </summary>
@@ -55,8 +55,11 @@ namespace MenuScript
         {
             if (m_CurrentBetAmount > m_TokensInInventory)
             {
+                Debug.Log(m_TokensInInventory);
+                Debug.Log(m_CurrentBetAmount);
                 print("Amount entered was too high");
-                StartCoroutine(DisplayErrorText());
+                showInfo.SetActive(true);
+               // StartCoroutine(DisplayErrorText());
                 return;
             }
             
@@ -142,6 +145,7 @@ namespace MenuScript
                 {
                     print("Successfully retrieved data from the servers for tokens");
                     float tokensFromServer = float.Parse(result.Data["TokensCollected"].Value);
+                    m_TokensInInventory = tokensFromServer;
                     tokenDisplay.text = tokensFromServer.ToString();
                 },
                 error =>
