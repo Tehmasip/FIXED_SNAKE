@@ -16,20 +16,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
-using System.Runtime.InteropServices;
 
 public class SnakeMovement : MonoBehaviour, IPunObservable
 {
-    [DllImport("__Internal")]
-    private static extern bool IsMobile();
-
-    public bool isMobile()
-    {
-#if !UNITY_EDITOR && UNITY_WEBGL
-             return IsMobile();
-#endif
-        return false;
-    }
     #region Main Variables
 
     public PhotonView photonView;
@@ -548,21 +537,8 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         nickName = PlayerPrefs.GetString("nickname", "");
         rb = GetComponent<Rigidbody>();
         gameSetup = GameObject.FindObjectOfType<GameSetup>();
-
-
-        if (isMobile())
-        {
-            CF2Controls = GameObject.FindGameObjectWithTag("CF2Canvas");
-            CF2Controls.SetActive(true);
-        }
-        else
-        {
-            CF2Controls = GameObject.FindGameObjectWithTag("CF2Canvas");
-            CF2Controls.SetActive(false);
-        }
-
     }
-    public GameObject CF2Controls;
+
     // update is called once per frame
     private void Update()
     {
@@ -591,16 +567,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
                 maxAmountOfFood = 400;
             }
 
-            if (isMobile())
-            {
-
-                ChooseControlMethod(2);
-            }
-            else
-            {
-
-                ChooseControlMethod(moveWay);
-            }
+            ChooseControlMethod(2);//moveWay);
 
             photonView.RPC("ColorSnakeRPC", RpcTarget.AllBuffered, skinID);
 
@@ -611,16 +578,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
             return;
         }
 
-        if (isMobile())
-       {
-
-            ChooseControlMethod(2);
-        }
-        else
-        {
-            ChooseControlMethod(moveWay);
-        }
-
+        ChooseControlMethod(2);// moveWay);
         ColorSnake(skinID);
         GenerateFoodAndItem();
         SnakeRun();
@@ -636,10 +594,17 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         {
             if (photonView.IsMine == false) 
             {
+//#if UNITY_ANDROID
+//             if (  Application.platform == RuntimePlatform.Android)
+//             MoveSnakeAndriod();
+//#elif UNITY_WEBGL
+               //if (Application.platform == RuntimePlatform.WebGLPlayer)
                     SnakeMovementOnForeignPlayer();
-
+                   // MovePlayerInputs();
+//#endif
                return;
           }
+           // MovePlayerInputs();
 
             SnakeMove();
             SetBodySizeAndSmoothTime();
@@ -2377,9 +2342,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         {
             float moveHorizontal = ControlFreak2.CF2Input.GetAxisRaw("Horizontal");
             float moveVertical = ControlFreak2.CF2Input.GetAxisRaw("Vertical");
-            mousePosition = new Vector3(transform.position.x + moveHorizontal, transform.position.y + moveVertical, 0);
-            direction = Vector3.Slerp(direction, mousePosition - transform.position, Time.deltaTime * 2.5f);
-            direction.z = 0;
+            direction = new Vector3(moveHorizontal, moveVertical, 0.1f);
             pointInWorld = direction.normalized * radius + transform.position;
             transform.LookAt(pointInWorld);
         }

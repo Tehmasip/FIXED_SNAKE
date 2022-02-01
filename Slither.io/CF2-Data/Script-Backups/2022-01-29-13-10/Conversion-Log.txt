@@ -1,0 +1,19 @@
+Converting script [1 / 1]	[\SnakeScripts\SnakeMovement.cs]
+	Fragments : 10
+		[ 0] : Line: 2163	InputMethod   GetAxisRaw          	("Horizontal")
+		[ 1] : Line: 2164	InputMethod   GetAxisRaw          	("Vertical")
+		[ 2] : Line: 2235	InputMethod   GetMouseButtonDown  	(0)
+		[ 3] : Line: 2247	InputMethod   GetMouseButtonUp    	(0)
+		[ 4] : Line: 2304	InputProperty mousePosition       
+		[ 5] : Line: 2315	InputProperty mousePosition       
+		[ 6] : Line: 2331	InputMethod   GetAxisRaw          	("Horizontal")
+		[ 7] : Line: 2332	InputMethod   GetAxisRaw          	("Vertical")
+		[ 8] : Line: 2343	InputMethod   GetAxisRaw          	("Horizontal")
+		[ 9] : Line: 2344	InputMethod   GetAxisRaw          	("Vertical")
+
+
+1 scripts modified!
+Overwriting actual scripts...
+	[0 / 1] from  [D:/GitHubV2/FIXED_SNAKE/Slither.io/CF2-Data/Script-Backups/2022-01-29-13-10\Assets-After/\SnakeScripts\SnakeMovement.cs] to [D:/GitHubV2/FIXED_SNAKE/Slither.io/Assets/\SnakeScripts\SnakeMovement.cs]
+
+Overwriting COMPLETED!

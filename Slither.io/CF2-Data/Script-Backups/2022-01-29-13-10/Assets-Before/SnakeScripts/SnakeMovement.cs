@@ -16,20 +16,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
-using System.Runtime.InteropServices;
 
 public class SnakeMovement : MonoBehaviour, IPunObservable
 {
-    [DllImport("__Internal")]
-    private static extern bool IsMobile();
-
-    public bool isMobile()
-    {
-#if !UNITY_EDITOR && UNITY_WEBGL
-             return IsMobile();
-#endif
-        return false;
-    }
     #region Main Variables
 
     public PhotonView photonView;
@@ -548,21 +537,8 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         nickName = PlayerPrefs.GetString("nickname", "");
         rb = GetComponent<Rigidbody>();
         gameSetup = GameObject.FindObjectOfType<GameSetup>();
-
-
-        if (isMobile())
-        {
-            CF2Controls = GameObject.FindGameObjectWithTag("CF2Canvas");
-            CF2Controls.SetActive(true);
-        }
-        else
-        {
-            CF2Controls = GameObject.FindGameObjectWithTag("CF2Canvas");
-            CF2Controls.SetActive(false);
-        }
-
     }
-    public GameObject CF2Controls;
+
     // update is called once per frame
     private void Update()
     {
@@ -591,16 +567,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
                 maxAmountOfFood = 400;
             }
 
-            if (isMobile())
-            {
-
-                ChooseControlMethod(2);
-            }
-            else
-            {
-
-                ChooseControlMethod(moveWay);
-            }
+            ChooseControlMethod(2);//moveWay);
 
             photonView.RPC("ColorSnakeRPC", RpcTarget.AllBuffered, skinID);
 
@@ -611,16 +578,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
             return;
         }
 
-        if (isMobile())
-       {
-
-            ChooseControlMethod(2);
-        }
-        else
-        {
-            ChooseControlMethod(moveWay);
-        }
-
+        ChooseControlMethod(2);// moveWay);
         ColorSnake(skinID);
         GenerateFoodAndItem();
         SnakeRun();
@@ -636,10 +594,17 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         {
             if (photonView.IsMine == false) 
             {
+//#if UNITY_ANDROID
+//             if (  Application.platform == RuntimePlatform.Android)
+//             MoveSnakeAndriod();
+//#elif UNITY_WEBGL
+               //if (Application.platform == RuntimePlatform.WebGLPlayer)
                     SnakeMovementOnForeignPlayer();
-
+                   // MovePlayerInputs();
+//#endif
                return;
           }
+           // MovePlayerInputs();
 
             SnakeMove();
             SetBodySizeAndSmoothTime();
@@ -2195,8 +2160,8 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
     //}
     private void MovePlayerInputs() {
         Debug.Log("here");
-        float moveHorizontal = ControlFreak2.CF2Input.GetAxisRaw("Horizontal");
-        float moveVertical = ControlFreak2.CF2Input.GetAxisRaw("Vertical");
+        float moveHorizontal = Input.GetAxisRaw("Horizontal");
+        float moveVertical = Input.GetAxisRaw("Vertical");
         Vector3 v3 = new Vector3(moveHorizontal, moveVertical, 1.0f);
         Quaternion qTo = Quaternion.LookRotation(v3);
         gameObject.transform.LookAt(v3);
@@ -2267,7 +2232,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
     {
         if (bodyParts.Count > 2)
         {
-            if (ControlFreak2.CF2Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
             {
                 t2 = Time.realtimeSinceStartup;
                 if (t2 - t1 < 0.2)
@@ -2279,7 +2244,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
                 t1 = t2;
             }
 
-            if (ControlFreak2.CF2Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0))
             {
                 isRunning = false;
                 snakeWalkSpeed = 3.5f + boostSpeed;
@@ -2336,7 +2301,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         if (isPhotonPlayer == false)
         {
             var ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>()
-                .ScreenPointToRay(ControlFreak2.CF2Input.mousePosition);
+                .ScreenPointToRay(Input.mousePosition);
             RaycastHit hit; // Store the first obj touched by ray
             Physics.Raycast(ray, out hit, 50.0f); // The third parameter is the max distance
             mousePosition = new Vector3(hit.point.x, hit.point.y, 0);
@@ -2347,7 +2312,7 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         }
         else if (photonView.IsMine)
         {
-            var ray = _multiPlayerCamera.GetComponent<Camera>().ScreenPointToRay(ControlFreak2.CF2Input.mousePosition);
+            var ray = _multiPlayerCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
             RaycastHit hit; // Store the first obj touched by ray
             Physics.Raycast(ray, out hit, 50.0f); // The third parameter is the max distance
             mousePosition = new Vector3(hit.point.x, hit.point.y, 0);
@@ -2363,8 +2328,8 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
     {
         if (isPhotonPlayer == false)
         {
-            float moveHorizontal = ControlFreak2.CF2Input.GetAxisRaw("Horizontal");
-            float moveVertical = ControlFreak2.CF2Input.GetAxisRaw("Vertical");
+            float moveHorizontal = Input.GetAxisRaw("Horizontal");
+            float moveVertical = Input.GetAxisRaw("Vertical");
            // direction = transform.position + new Vector3(moveHorizontal, moveVertical, 0);
             mousePosition = new Vector3(transform.position.x + moveHorizontal, transform.position.y + moveVertical, 0);
             direction = Vector3.Slerp(direction, mousePosition - transform.position, Time.deltaTime * 2.5f);
@@ -2375,11 +2340,9 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         }
         else if (photonView.IsMine)
         {
-            float moveHorizontal = ControlFreak2.CF2Input.GetAxisRaw("Horizontal");
-            float moveVertical = ControlFreak2.CF2Input.GetAxisRaw("Vertical");
-            mousePosition = new Vector3(transform.position.x + moveHorizontal, transform.position.y + moveVertical, 0);
-            direction = Vector3.Slerp(direction, mousePosition - transform.position, Time.deltaTime * 2.5f);
-            direction.z = 0;
+            float moveHorizontal = Input.GetAxisRaw("Horizontal");
+            float moveVertical = Input.GetAxisRaw("Vertical");
+            direction = new Vector3(moveHorizontal, moveVertical, 0.1f);
             pointInWorld = direction.normalized * radius + transform.position;
             transform.LookAt(pointInWorld);
         }

@@ -367,6 +367,7 @@ MonoBehaviour:
   orange: {fileID: 2100000, guid: 76db989384d6eab4bacfbb26c628f552, type: 2}
   skinID: 0
   gameSetup: {fileID: 0}
+  CF2Controls: {fileID: 0}
 --- !u!114 &-5852069044577893919
 MonoBehaviour:
   m_ObjectHideFlags: 0

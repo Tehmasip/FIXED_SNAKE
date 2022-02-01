@@ -21,15 +21,16 @@ TagManager:
   - BodyContainer
   - Snake Text
   - TokenPopContainer
+  - CF2Canvas
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - LocalPlayer
+  - 
   - Water
   - UI
-  - RobotComponents
-  - ForeignPlayer
+  - 
+  - 
   - 
   - 
   - 
