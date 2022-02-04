@@ -34,6 +34,7 @@ namespace MenuScript
         //Stores the bet amount
         private int m_CurrentBetAmount;
         public GameObject showInfo;
+        public Text InputText;
         /// <summary>
         /// Runs when the back button is clicked
         /// </summary>
@@ -53,16 +54,24 @@ namespace MenuScript
         /// </summary>
         public void ProcessBetAmount()
         {
+            //if(string.IsNullOrEmpty(InputText.text)) {
+            //    showInfo.SetActive(true);
+            //    return;
+            //}
             if (m_CurrentBetAmount > m_TokensInInventory)
             {
-                Debug.Log(m_TokensInInventory);
-                Debug.Log(m_CurrentBetAmount);
+                //Debug.Log(m_TokensInInventory);
+                //Debug.Log(m_CurrentBetAmount);
                 print("Amount entered was too high");
                 showInfo.SetActive(true);
                // StartCoroutine(DisplayErrorText());
                 return;
             }
-            
+            //if (m_CurrentBetAmount <= 0) {
+            //    showInfo.SetActive(true);
+            //    return;
+            //}
+
             print("Amount is being processed as the amount was correct");
             //Subtracting bet amount to 
             m_TokensInInventory -= m_CurrentBetAmount;

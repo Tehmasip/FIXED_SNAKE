@@ -13180,6 +13180,7 @@ MonoBehaviour:
   errorText: {fileID: 270398748}
   backButton: {fileID: 1847816739}
   showInfo: {fileID: 1735436145}
+  InputText: {fileID: 688696874}
 --- !u!1 &1496052849
 GameObject:
   m_ObjectHideFlags: 0

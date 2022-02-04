@@ -13,7 +13,7 @@ public class SnakeBodyActions : MonoBehaviour, IPunObservable
     [SerializeField] private PhotonView photonView;
     [SerializeField] private bool isPhotonPlayer;
 
-    private SnakeMovement m_LocalSnakeMovementScript;
+    private SnakeMovementMultiplayer m_LocalSnakeMovementScript;
     
     private int myOrder; // The order of this part in the whole snake
     private Transform head; // The location of snake head
@@ -52,7 +52,7 @@ public class SnakeBodyActions : MonoBehaviour, IPunObservable
 
             if (myOrder != 0)
             {
-                stream.SendNext(head.GetComponent<SnakeMovement>().bodyParts[myOrder - 1].position);
+                stream.SendNext(head.GetComponent<SnakeMovementMultiplayer>().bodyParts[myOrder - 1].position);
             }
         }
         else if (stream.IsReading)
@@ -102,9 +102,9 @@ public class SnakeBodyActions : MonoBehaviour, IPunObservable
         //Try catch to get all components required
         try
         {
-            for (int i = 0; i < head.GetComponent<SnakeMovement>().bodyParts.Count; i++)
+            for (int i = 0; i < head.GetComponent<SnakeMovementMultiplayer>().bodyParts.Count; i++)
             {
-                if (gameObject == head.GetComponent<SnakeMovement>().bodyParts[i].gameObject)
+                if (gameObject == head.GetComponent<SnakeMovementMultiplayer>().bodyParts[i].gameObject)
                 {
                     myOrder = i;
                     break;
@@ -343,7 +343,7 @@ public class SnakeBodyActions : MonoBehaviour, IPunObservable
                     parentHead = playerPhotonView.gameObject;
 
                     //Setting up boost speed
-                    m_LocalSnakeMovementScript = head.GetComponent<SnakeMovement>();
+                    m_LocalSnakeMovementScript = head.GetComponent<SnakeMovementMultiplayer>();
 
                     //Trying to find a foreign player
                     photonView.RPC(
@@ -353,9 +353,9 @@ public class SnakeBodyActions : MonoBehaviour, IPunObservable
                 }
             }
 
-            for (int i = 0; i < head.GetComponent<SnakeMovement>().bodyParts.Count; i++)
+            for (int i = 0; i < head.GetComponent<SnakeMovementMultiplayer>().bodyParts.Count; i++)
             {
-                if (gameObject == head.GetComponent<SnakeMovement>().bodyParts[i].gameObject)
+                if (gameObject == head.GetComponent<SnakeMovementMultiplayer>().bodyParts[i].gameObject)
                 {
                     myOrder = i;
                     break;
@@ -387,14 +387,14 @@ public class SnakeBodyActions : MonoBehaviour, IPunObservable
         {
             if (photonView.IsMine == false)
             {
-                if (myOrder == 0)
-                {
-                    StartCoroutine(SyncForeignPlayerPosition());
-                }
-                else
-                {
-                    StartCoroutine(SyncForeignPlayerPosition2());
-                }
+                //if (myOrder == 0)
+                //{
+                //    StartCoroutine(SyncForeignPlayerPosition());
+                //}
+                //else
+                //{
+                //    StartCoroutine(SyncForeignPlayerPosition2());
+                //}
                 return;
             }
 
@@ -414,12 +414,12 @@ public class SnakeBodyActions : MonoBehaviour, IPunObservable
             else
             {
                 transform.position = Vector3.SmoothDamp(transform.position,
-                    head.GetComponent<SnakeMovement>().bodyParts[myOrder - 1].position,
+                    head.GetComponent<SnakeMovementMultiplayer>().bodyParts[myOrder - 1].position,
                     ref movementVelocity, smoothTime / 3);
-                transform.LookAt(head.GetComponent<SnakeMovement>().bodyParts[myOrder - 1].position);
+                transform.LookAt(head.GetComponent<SnakeMovementMultiplayer>().bodyParts[myOrder - 1].position);
 
                 //Getting the photon view of the body
-                PhotonView bodyPartView = head.GetComponent<SnakeMovement>().bodyParts[myOrder - 1]
+                PhotonView bodyPartView = head.GetComponent<SnakeMovementMultiplayer>().bodyParts[myOrder - 1]
                     .GetComponent<PhotonView>();
                 _foreignBodyViewId = bodyPartView.ViewID;
             }

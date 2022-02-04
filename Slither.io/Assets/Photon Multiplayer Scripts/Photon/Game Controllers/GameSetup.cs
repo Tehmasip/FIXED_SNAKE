@@ -74,9 +74,9 @@ namespace Photon_Multiplayer_Scripts.Photon.Game_Controllers
             if (snakeView.IsMine == false) return;
             
             print("Increasing the number of snakes killed");
-            
+
             //Getting the snake movement script and increasing the number of snakes killed
-            SnakeMovement snakeMovement = snakeView.GetComponent<SnakeMovement>();
+            SnakeMovementMultiplayer snakeMovement = snakeView.GetComponent<SnakeMovementMultiplayer>();
             snakeMovement.numberOfSnakesKilled++;
         }
         
@@ -100,9 +100,9 @@ namespace Photon_Multiplayer_Scripts.Photon.Game_Controllers
                 if (headPv.IsMine == false)
                 {
                     playerHead.layer = 7;
-                    
+
                     //Changing layer of sides
-                    SnakeMovement snakeMovement = playerHead.GetComponent<SnakeMovement>();
+                    SnakeMovementMultiplayer snakeMovement = playerHead.GetComponent<SnakeMovementMultiplayer>();
                     snakeMovement.snakeSidesRef[0].layer = 7;
                     snakeMovement.snakeSidesRef[1].layer = 7;
                 }

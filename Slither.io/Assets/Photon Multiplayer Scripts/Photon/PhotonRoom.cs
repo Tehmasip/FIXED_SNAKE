@@ -325,14 +325,14 @@ namespace Photon_Multiplayer_Scripts.Photon
             {
                 isGameLoaded = true;
                 //Delay start loading
-                if (MultiplayerSettings.Instance.delayStart)
-                {
-                    _pv.RPC("RPC_LoadedGameScene", RpcTarget.MasterClient);
-                }
-                else
-                {
-                    RPC_CreatePlayer();
-                }
+                //if (MultiplayerSettings.Instance.delayStart)
+                //{
+                //    _pv.RPC("RPC_LoadedGameScene", RpcTarget.MasterClient);
+                //}
+                //else
+                //{
+                //    RPC_CreatePlayer();
+                //}
             }
         }
 

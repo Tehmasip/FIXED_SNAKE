@@ -63,44 +63,55 @@ namespace Photon_Multiplayer_Scripts.Photon.Game_Controllers
                 switch (skinID)
                 {
                     case 1:
-                        myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeHeadPhoton"),
-                    GameSetup.Instance.spawnPoints[spawnPicker].position,
+                        Debug.Log("case 1");
+                        GameObject body = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeHeadPhoton"),
+                        //myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeHeadPhoton"),
+                        GameSetup.Instance.spawnPoints[spawnPicker].position,
                     GameSetup.Instance.spawnPoints[spawnPicker].rotation,
                     0);
-                        myAvatar.GetComponent<SnakeMovement>().photonView.RPC(
+                        myAvatar = body;
+                        myAvatar.GetComponent<SnakeMovementMultiplayer>().photonView.RPC(
                             "SetSkinId",
                             RpcTarget.AllBuffered,
                             1
                         );
                         break;
                     case 2:
-                        myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeHeadPhoton 1"),
+                        Debug.Log("case 2");
+                        GameObject q = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeHeadPhoton 1"),
                     GameSetup.Instance.spawnPoints[spawnPicker].position,
                     GameSetup.Instance.spawnPoints[spawnPicker].rotation,
                     0);
-                        myAvatar.GetComponent<SnakeMovement>().photonView.RPC(
+                        Debug.Log(q.name);
+                        myAvatar = q;
+                        Debug.Log(myAvatar.name);
+                        myAvatar.GetComponent<SnakeMovementMultiplayer>().photonView.RPC(
                             "SetSkinId",
                             RpcTarget.AllBuffered,
                             2
                         );
                         break;
                     case 3:
-                        myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeHeadPhoton 2"),
+                        Debug.Log("case 3");
+                        GameObject w = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeHeadPhoton 2"),
                     GameSetup.Instance.spawnPoints[spawnPicker].position,
                     GameSetup.Instance.spawnPoints[spawnPicker].rotation,
                     0);
-                        myAvatar.GetComponent<SnakeMovement>().photonView.RPC(
+                        myAvatar = w;
+                        myAvatar.GetComponent<SnakeMovementMultiplayer>().photonView.RPC(
                             "SetSkinId",
                             RpcTarget.AllBuffered,
                             3
                         );
                         break;
                     default:
-                        myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeHeadPhoton"),
+                        Debug.Log("case 4");
+                        GameObject e = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeHeadPhoton"),
                             GameSetup.Instance.spawnPoints[spawnPicker].position,
                             GameSetup.Instance.spawnPoints[spawnPicker].rotation,
                             0);
-                        myAvatar.GetComponent<SnakeMovement>().photonView.RPC(
+                        myAvatar = e;
+                        myAvatar.GetComponent<SnakeMovementMultiplayer>().photonView.RPC(
                             "SetSkinId",
                             RpcTarget.AllBuffered,
                             1
@@ -109,12 +120,12 @@ namespace Photon_Multiplayer_Scripts.Photon.Game_Controllers
                 }
 
                 //Setting the canvas text object for the spawned snake
-                SnakeMovement snakeMovement = myAvatar.GetComponent<SnakeMovement>();
+                SnakeMovementMultiplayer snakeMovement = myAvatar.GetComponent<SnakeMovementMultiplayer>();
                 snakeMovement.countText = countText;
                 snakeMovement.tokenText = tokensText;
                 snakeMovement.snakesKilledText = snakesText;
-            }
             miniMap.target = myAvatar.transform;
+            }
         }
 
         /// <summary>
@@ -122,7 +133,7 @@ namespace Photon_Multiplayer_Scripts.Photon.Game_Controllers
         /// </summary>
         public void StopFoodGeneration()
         {
-            SnakeMovement snakeMovementScript = myAvatar.GetComponent<SnakeMovement>();
+            SnakeMovementMultiplayer snakeMovementScript = myAvatar.GetComponent<SnakeMovementMultiplayer>();
             PhotonView snakeMovementView = snakeMovementScript.photonView;
             snakeMovementView.RPC(
                 "StopMultiplayerRunGenerateFoodItemRoutine", RpcTarget.AllBuffered

@@ -16,5 +16,7 @@ namespace Photon.Chat.Demo
         {
             return this.gameObject.activeInHierarchy;
         }
+
+        
     }
 }

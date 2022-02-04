@@ -178,7 +178,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5e2a90782f843e91fb269d8a9ffb1b3d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 69c079b087e4704a39a3b58664be9443, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -202,11 +202,12 @@ GameObject:
   - component: {fileID: 4525850004990483663}
   - component: {fileID: 4525850004990483662}
   - component: {fileID: 4525850004990483657}
-  - component: {fileID: 8478608464591634023}
-  - component: {fileID: -963638140317783377}
-  - component: {fileID: 4649053546318521378}
+  - component: {fileID: 4525850004990483650}
+  - component: {fileID: -5852069044577893919}
+  - component: {fileID: 6730097245190698380}
+  - component: {fileID: -8292033549011447906}
   m_Layer: 3
-  m_Name: SnakeHeadPhoton 2
+  m_Name: SnakeHeadPhoton 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,7 +305,71 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8478608464591634023
+--- !u!114 &4525850004990483650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4525850004990483656}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42c100fc435fc3142970b374e4f0296a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  photonView: {fileID: -5852069044577893919}
+  isPhotonPlayer: 1
+  snakeBodyParts: {fileID: 2562738115448665515, guid: 76d83f14301a82843b13a6be0bd9571f,
+    type: 3}
+  snakeBodyTexture: {fileID: 21300000, guid: 19925c2013d39b5dfaa4a72cb6b8be65, type: 3}
+  greenSnakeTexture: {fileID: 21300000, guid: 59f97913747819b50993c16f7d4632f8, type: 3}
+  blueSnakeTexture: {fileID: 21300000, guid: 19925c2013d39b5dfaa4a72cb6b8be65, type: 3}
+  orangeSnakeTexture: {fileID: 21300000, guid: 689a94d7ba3450166965e31790b348b7, type: 3}
+  bodyParts: []
+  snakeSidesRef:
+  - {fileID: 1191503389801225793}
+  - {fileID: 8138222673766577740}
+  Robots: []
+  runBodyPartSmoothTime: 0.1
+  addBodyPart: {fileID: 4000013412858886, guid: d9c5bc1f6798f1d4cb7ffd6256f7fce3,
+    type: 3}
+  foodUpCounter: 0
+  foodCounter: 0
+  curSizeLevel: 0
+  curSize: {x: 1, y: 1, z: 1}
+  countText: {fileID: 0}
+  tokenText: {fileID: 0}
+  snakesKilledText: {fileID: 0}
+  length: 0
+  tokensCollected: 50
+  numberOfSnakesKilled: 0
+  boostSpeed: 3
+  hasLongReachAbility: 0
+  isAI: 0
+  curAmountOfRobot: 0
+  maxAmountOfRobot: 30
+  robotGenerateTarget:
+  - {fileID: 1000011457694152, guid: 3e2429486aa5e66409f033715aecd630, type: 3}
+  curAmountOfFood: 0
+  maxAmountOfFood: 600
+  curAmountOfItem: 0
+  maxAmountOfItem: 100
+  foodGenerateTarget:
+  - {fileID: 1000012192186106, guid: 42ed57aab2727224d8aa6f271af7a26c, type: 3}
+  - {fileID: 1000011398089762, guid: cafccccec66d3a84ca31cced66d859a9, type: 3}
+  - {fileID: 1000010231435950, guid: 2896a7c064aa75d4197a9aff9077c99d, type: 3}
+  - {fileID: 1000011398089762, guid: f3139dc3129171110b794503cd2c15e4, type: 3}
+  itemGenerateTarget:
+  - {fileID: 1000014280068602, guid: 35db0ea737a9d9541b0ae4d2f0d50664, type: 3}
+  - {fileID: 1000011434565866, guid: 182eacf4413c66647a0fc96e42b989a4, type: 3}
+  stone: {fileID: 1000010576398210, guid: f205036f42f8c154c86a1481c49caaba, type: 3}
+  blue: {fileID: 2100000, guid: 569c2ebd6bce712429633c991a1cd681, type: 2}
+  red: {fileID: 2100000, guid: 0a2854bc5370bf64882b8ed4e8a21e56, type: 2}
+  orange: {fileID: 2100000, guid: 76db989384d6eab4bacfbb26c628f552, type: 2}
+  skinID: 0
+  gameSetup: {fileID: 0}
+  CF2Controls: {fileID: 0}
+--- !u!114 &-5852069044577893919
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -323,11 +388,13 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -963638140317783377}
+  - {fileID: 4525850004990483650}
+  - {fileID: 6730097245190698380}
+  - {fileID: -8292033549011447906}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-963638140317783377
+--- !u!114 &6730097245190698380
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -343,7 +410,7 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 1
   m_UseLocal: 1
---- !u!114 &4649053546318521378
+--- !u!114 &-8292033549011447906
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -352,10 +419,62 @@ MonoBehaviour:
   m_GameObject: {fileID: 4525850004990483656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859e340eca8af87428eb45cd5c82d561, type: 3}
+  m_Script: {fileID: 11500000, guid: 8df5cabf4486d3a4e884424f2028e48d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _multiPlayerCamera: {fileID: 0}
+  photonView: {fileID: -8703461641097912665, guid: a078f7aea2524eedfa174ba74a85086f,
+    type: 3}
+  isPhotonPlayer: 1
+  snakeBodyParts: {fileID: 2562738115448665515, guid: 76d83f14301a82843b13a6be0bd9571f,
+    type: 3}
+  snakeBodyTexture: {fileID: 21300000, guid: 689a94d7ba3450166965e31790b348b7, type: 3}
+  greenSnakeTexture: {fileID: 21300000, guid: 59f97913747819b50993c16f7d4632f8, type: 3}
+  blueSnakeTexture: {fileID: 21300000, guid: 19925c2013d39b5dfaa4a72cb6b8be65, type: 3}
+  orangeSnakeTexture: {fileID: 0}
+  bodyParts: []
+  snakeSidesRef:
+  - {fileID: 1191503389801225793}
+  - {fileID: 8138222673766577740}
+  Robots: []
+  runBodyPartSmoothTime: 0.1
+  addBodyPart: {fileID: 4000013412858886, guid: d9c5bc1f6798f1d4cb7ffd6256f7fce3,
+    type: 3}
+  foodUpCounter: 0
+  foodCounter: 0
+  curSizeLevel: 0
+  curSize: {x: 1, y: 1, z: 1}
+  countText: {fileID: 0}
+  tokenText: {fileID: 0}
+  snakesKilledText: {fileID: 0}
+  length: 0
+  tokensCollected: 50
+  numberOfSnakesKilled: 0
+  boostSpeed: 0
+  hasLongReachAbility: 1
+  isAI: 0
+  curAmountOfRobot: 0
+  maxAmountOfRobot: 30
+  robotGenerateTarget:
+  - {fileID: 1000011457694152, guid: 3e2429486aa5e66409f033715aecd630, type: 3}
+  curAmountOfFood: 0
+  maxAmountOfFood: 100
+  curAmountOfItem: 0
+  maxAmountOfItem: 600
+  foodGenerateTarget:
+  - {fileID: 1000012192186106, guid: 42ed57aab2727224d8aa6f271af7a26c, type: 3}
+  - {fileID: 1000011398089762, guid: cafccccec66d3a84ca31cced66d859a9, type: 3}
+  - {fileID: 1000010231435950, guid: 2896a7c064aa75d4197a9aff9077c99d, type: 3}
+  - {fileID: 1000011398089762, guid: f3139dc3129171110b794503cd2c15e4, type: 3}
+  itemGenerateTarget:
+  - {fileID: 1000014280068602, guid: 35db0ea737a9d9541b0ae4d2f0d50664, type: 3}
+  - {fileID: 1000011434565866, guid: 182eacf4413c66647a0fc96e42b989a4, type: 3}
+  stone: {fileID: 140084, guid: 4f3662a9319d0554cb21ee14edb15c95, type: 3}
+  blue: {fileID: 2100000, guid: 569c2ebd6bce712429633c991a1cd681, type: 2}
+  red: {fileID: 2100000, guid: 0a2854bc5370bf64882b8ed4e8a21e56, type: 2}
+  orange: {fileID: 2100000, guid: 76db989384d6eab4bacfbb26c628f552, type: 2}
+  skinID: 0
+  gameSetup: {fileID: 0}
+  CF2Controls: {fileID: 0}
 --- !u!1 &8138222673766577740
 GameObject:
   m_ObjectHideFlags: 0
