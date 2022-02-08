@@ -27,50 +27,43 @@ MonoBehaviour:
     EnableProtocolFallback: 1
     AuthMode: 0
     EnableLobbyStatistics: 0
-    NetworkLogging: 1
+    NetworkLogging: 0
   DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - AddBodyElement
+  - AddBodyPartWithViewId
+  - AgainSpawnFood
+  - ApplyHeadRotationOnForeignPlayer
   - ClickRpc
+  - ColorSnakeRPC
+  - DeactivateSnakeBodies
+  - DeductTokenValue
+  - DestroyObjectOnNetwork
   - DestroyRpc
+  - DestroySnake
   - DestroySpaceship
+  - EnableSnakeCollidersAfterAWhileRPC
+  - FindLocalHeadOnForeign
   - Fire
+  - FoodSpawner
+  - GenerateFoodOnNetwork
+  - HandleBodyTagsForForeignPlayers
+  - IncreaseNumberOfSnakesKilled
+  - IncreaseSnakesKilledByOne
   - RespawnSpaceship
   - RPC_CreatePlayer
   - RPC_LoadedGameScene
-  - ColorSnakeRPC
-  - SetSnakeSkinAcrossNetwork
   - SetSkinId
-  - SpawnBodyPartsMultiplayer
-  - AddBodyPartWithViewId
-  - DestroyObjectOnNetwork
-  - HandleBodyTagsForForeignPlayers
-  - RemoveBodyPartWithViewId
   - SetTokenValue
   - SpawnFoodOnNetwork
-  - DestroySnakeCompletely
-  - ResetSnakeBodyPartList
-  - RemoveSnakeBodyListItem
-  - DestroySnakeCompleteOnNetwork
-  - DeactivateSnakeBodies
-  - GenerateFoodItemOnMasterClient
-  - GenerateFoodOnNetwork
-  - StopMultiplayerRunGenerateFoodItemRoutine
-  - ApplyHeadRotationOnForeignPlayer
-  - SetRotationOnForeign
-  - SetHeadPositionAtStart
-  - SyncPositionAtStart
-  - StartOnForeignPlayer
-  - IncreaseSnakesKilledByOne
-  - IncreaseNumberOfSnakesKilled
-  - FindLocalHead
-  - FindLocalHeadOnForeign
-  - EnableSnakeCollidersAfterAWhileRPC
   - SpawnTokenOnNetworkWithBetValue
-  - DeductTokenValue
+  - StartOnForeignPlayer
+  - StopMultiplayerRunGenerateFoodItemRoutine
+  - BoostSpeed
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

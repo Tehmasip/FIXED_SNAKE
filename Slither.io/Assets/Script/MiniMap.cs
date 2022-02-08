@@ -17,7 +17,7 @@ public class MiniMap : MonoBehaviour
     void Update()
     {
         Debug.Log(SpawnPlayerSnakeScript.isFail);
-        if(!SpawnPlayerSnakeScript.isFail)
+        if(!SpawnPlayerSnakeScript.isFail && target !=null)
         transform.position = target.position + offset; 
     }
 }

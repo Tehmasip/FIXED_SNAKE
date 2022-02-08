@@ -23,8 +23,15 @@ public class BackMenu: MonoBehaviour {
 
 	private IEnumerator ReturnToMainMenu()
 	{
+		//if(MultiPlayerController.Instance.player != null)
+      //  {
+			//PhotonNetwork.Destroy(MultiPlayerController.Instance.player);
+			//PhotonNetwork.Destroy(MultiPlayerController.Instance.gameObject);
+			PhotonNetwork.DestroyAll(true);
+       // }
+
 		PhotonRoom.Instance.RemoveCallBackTarget();
-		
+	
 		//Disconnecting from Photon
 		while (PhotonNetwork.InRoom)
 		{

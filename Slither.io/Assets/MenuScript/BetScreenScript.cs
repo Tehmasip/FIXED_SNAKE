@@ -17,6 +17,10 @@ namespace MenuScript
 
         [Header("References to children and other scene Objects")]
         //Main Menu panel
+        [SerializeField] private GameObject NoNegetiveScreen;
+        //Main Menu panel
+        [SerializeField] private GameObject EnterValueScreen;
+
         [SerializeField] private GameObject mainMenuPanel;
         //Display loading image
         [SerializeField] private GameObject loadingImage;
@@ -54,10 +58,10 @@ namespace MenuScript
         /// </summary>
         public void ProcessBetAmount()
         {
-            //if(string.IsNullOrEmpty(InputText.text)) {
-            //    showInfo.SetActive(true);
-            //    return;
-            //}
+            if(string.IsNullOrEmpty(InputText.text)) {
+                EnterValueScreen.SetActive(true);
+                return;
+            }
             if (m_CurrentBetAmount > m_TokensInInventory)
             {
                 //Debug.Log(m_TokensInInventory);
@@ -67,10 +71,10 @@ namespace MenuScript
                // StartCoroutine(DisplayErrorText());
                 return;
             }
-            //if (m_CurrentBetAmount <= 0) {
-            //    showInfo.SetActive(true);
-            //    return;
-            //}
+            if (m_CurrentBetAmount <= 0) {
+                NoNegetiveScreen.SetActive(true);
+                return;
+            }
 
             print("Amount is being processed as the amount was correct");
             //Subtracting bet amount to 
