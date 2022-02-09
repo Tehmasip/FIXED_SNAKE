@@ -228,8 +228,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859e340eca8af87428eb45cd5c82d561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CF2Controls: {fileID: 0}
   Food: {fileID: 1000010231435950, guid: 2896a7c064aa75d4197a9aff9077c99d, type: 3}
   BodyPrefeb: {fileID: 1000013397739332, guid: f1d592293f4469b4f89b27b250debcf8, type: 3}
+  snakeWalkSpeed: 6
   _multiPlayerCamera: {fileID: 0}
   StopMove: 0
   Bodies: []

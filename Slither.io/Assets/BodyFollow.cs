@@ -8,9 +8,10 @@ public class BodyFollow : MonoBehaviour
     public float smoothTime = 0.2f;
     private Vector3 movementVelocity;
     // Start is called before the first frame update
+    Collider col;
     void Start()
     {
-        
+        col = this.gameObject.GetComponent<Collider>();
     }
 
     // Update is called once per frame
@@ -18,9 +19,19 @@ public class BodyFollow : MonoBehaviour
     {
         if(Target!=null)
         {
+            if( Vector3.Distance(this.transform.position , Target.transform.position) > 1.5 )
+            {
+                col.enabled = false;
 
-            transform.position = Vector3.SmoothDamp(transform.position,
-                     Target.position, ref movementVelocity, smoothTime);
+                transform.position = Target.position;
+            }
+            else
+            {
+                col.enabled = true;
+                transform.position = Vector3.SmoothDamp(transform.position,
+                         Target.position, ref movementVelocity, smoothTime);
+            }
+
         }
     }
 }

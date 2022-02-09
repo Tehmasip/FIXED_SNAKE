@@ -1,20 +1,47 @@
-﻿using Photon.Pun;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Globalization;
 using System.IO;
+using System.Linq;
+using Photon_Multiplayer_Scripts.Photon.Game_Controllers;
+using Photon_Multiplayer_Scripts.Photon.Gameplay_Scripts;
+using Photon.Pun;
+using Photon.Realtime;
+using PlayFab;
+using PlayFab.ClientModels;
+using SnakeScripts;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
+using System.Runtime.InteropServices;
+
 
 public class SnakeController : MonoBehaviour
 {
+    [DllImport("__Internal")]
+    private static extern bool IsMobile();
+
+    public bool isMobile()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+             return IsMobile();
+#endif
+        return false;
+    }
+
+    public GameObject CF2Controls;
     public GameObject Food;
     public GameObject BodyPrefeb;
     private Vector3 pointInWorld, mousePosition, direction, pointInWorldForeignLagCompensation = new Vector3();
     private PhotonView photonView;
-    private int snakeWalkSpeed=4;
+    public int snakeWalkSpeed=6;
     public GameObject _multiPlayerCamera;
   //  public GameObject ControlFreak2;
     private readonly float radius = 20.0f;
-    private readonly float snakeRunSpeed = 7.0f; // Called in SnakeRun()
+    private readonly float snakeRunSpeed = 8.0f; // Called in SnakeRun()
 
     bool StartEat;
     // Start is called before the first frame update
@@ -32,7 +59,21 @@ public class SnakeController : MonoBehaviour
             this.photonView.RPC("AddBodyElement", RpcTarget.AllBuffered);
 
             Invoke("StartEatF", 1);
+
+            if (isMobile())
+            {
+                CF2Controls = GameObject.FindGameObjectWithTag("CF2Canvas");
+                CF2Controls.SetActive(true);
+            }
+            else
+            {
+                CF2Controls = GameObject.FindGameObjectWithTag("CF2Canvas");
+                CF2Controls.SetActive(false);
+                
+            }
         }
+
+        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
 
     }
     void StartEatF()
@@ -44,7 +85,18 @@ public class SnakeController : MonoBehaviour
     {
         if (!StopMove)
         {
-            MouseControlSnake();
+            
+            if (isMobile())
+            {
+
+                MovePlayerInputs();
+            }
+            else
+            {
+
+                MouseControlSnake();
+            }
+
             SnakeMove();
         }
           
@@ -74,21 +126,23 @@ public class SnakeController : MonoBehaviour
        }
     }
     private void SnakeMove() {
-        
 
-            transform.position += transform.forward * snakeWalkSpeed * Time.deltaTime;
-        
+        transform.position += transform.forward * snakeWalkSpeed * Time.deltaTime;
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
     private void MovePlayerInputs() {
-        Debug.Log("here");
+        if (photonView.IsMine)
+        {
         float moveHorizontal = ControlFreak2.CF2Input.GetAxisRaw("Horizontal");
         float moveVertical = ControlFreak2.CF2Input.GetAxisRaw("Vertical");
-        Vector3 v3 = new Vector3(moveHorizontal, moveVertical, 1.0f);
-        Quaternion qTo = Quaternion.LookRotation(v3);
-        gameObject.transform.LookAt(v3);
-        //gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, qTo, 50 * Time.deltaTime);
-        transform.rotation = Quaternion.Slerp(transform.rotation, qTo, 50 * Time.deltaTime);
-    }
+            // direction = transform.position + new Vector3(moveHorizontal, moveVertical, 0);
+            mousePosition = new Vector3(transform.position.x + moveHorizontal, transform.position.y + moveVertical, 0);
+            direction = Vector3.Slerp(direction, mousePosition - transform.position, Time.deltaTime * 2.5f);
+            direction.z = 0;
+            pointInWorld = direction.normalized * radius + transform.position;
+            transform.LookAt(pointInWorld);
+        }
+}
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -203,7 +257,7 @@ public class SnakeController : MonoBehaviour
     [PunRPC]
     public void BoostSpeed()
     {
-        snakeWalkSpeed = 4;
+        snakeWalkSpeed = 12;
         StartCoroutine(BoostTime());
     }
     IEnumerator BoostTime()
