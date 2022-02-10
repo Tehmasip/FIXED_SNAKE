@@ -11,9 +11,11 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     public Text userEmailText;
     public Text userPasswordText;
     public Text userNameText;
+    public Text errorMessgaeText;
     public GameObject loginScreen;
     public GameObject SuccessfulyLoginScreen;
     public GameObject LeaderBoardScreen;
+    public GameObject ErrorScreen;
     public GameObject leaderBoardInstance;
     public GameObject DailyLeaderContent;
     public GameObject WeeklyLeaderContent;
@@ -65,7 +67,14 @@ public class LeaderBoardPlayFab : MonoBehaviour {
         SuccessfulyLoginScreen.SetActive(true);
     }
     private void OnRegisterfailure(PlayFabError error) {
-        Debug.Log(error.GenerateErrorReport());
+        StartCoroutine(DisplayError(error.GenerateErrorReport()));
+     //   Debug.Log(error.GenerateErrorReport());
+    }
+    private IEnumerator DisplayError(string error) {
+        ErrorScreen.SetActive(true);
+        errorMessgaeText.text = error;
+        yield return new WaitForSeconds(2);
+        ErrorScreen.SetActive(false);
     }
     private void OnLoginFailure(PlayFabError error) {
         var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = userPassword, Username = userName };
@@ -180,6 +189,7 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     public void ShowLeaderBoard() {
         SetStats();
         GetSats();
+        SetStatsWeekly(); 
         LeaderBoardScreen.SetActive(true);
         GetWeeklyLeaderBoard();
         GetDailyLeaderBoard();
