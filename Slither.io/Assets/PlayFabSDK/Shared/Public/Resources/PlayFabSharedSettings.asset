@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093286084a3d1994a9c28281a1c38b1d, type: 3}
   m_Name: PlayFabSharedSettings
   m_EditorClassIdentifier: 
-  TitleId: 60B98
-  DeveloperSecretKey: EH3PZXY9TT8ADD199EJF88NWJ446FUFO3YKSFTE9UYTF3IPY7R
+  TitleId: 32992
+  DeveloperSecretKey: QCRN6A6FISZA7OY7NTTEWX6JZ1TNMI1WC9BQH5KIFU5IXOCFCX
   ProductionEnvironmentUrl: 
   RequestType: 2
   DisableDeviceInfo: 0

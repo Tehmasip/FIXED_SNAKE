@@ -15,7 +15,7 @@ namespace PlayFabScripts
     {
         private void OnEnable()
         {
-            SendHighScoreDataToPlayFab();
+            //SendHighScoreDataToPlayFab();
             SetSkinOnStartOfGame();
         }
 

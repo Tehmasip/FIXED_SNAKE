@@ -122,26 +122,44 @@ namespace PlayFabScripts
             
             //Update contact email
             ContactEmailUpdate(_userEmail, result.PlayFabId);
-            
+
             PlayFabClientAPI.GetPlayerStatistics(
                 new GetPlayerStatisticsRequest(),
-                statisticsResult =>
-                {
-                    foreach (var statistic in 
-                        statisticsResult.Statistics.Where(statistic => statistic.StatisticName == "highScore"))
-                    {
-                        PlayerPrefs.SetInt("BestScore", statistic.Value);
+                statisticsResult => {
+                    foreach (var statistic in
+                        statisticsResult.Statistics.Where(statistic => statistic.StatisticName == "Daily")) {
+                        statistic.Value = PlayerPrefs.GetInt("BestScore");
+                        // PlayerPrefs.SetInt("BestScore", statistic.Value);
                         print("Players high score on server is " + statistic.Value);
                         StartCoroutine(LoadNextScene());
                         return;
                     }
-                    
+
                     print("No high score variable was found. So setting high score value to zero");
-                    PlayerPrefs.SetInt("BestScore", 0);
+                    // PlayerPrefs.SetInt("BestScore", 0);
+                    Debug.Log("Scores are" + PlayerPrefs.GetInt("BestScore"));
                     StartCoroutine(LoadNextScene());
                 },
-                error => {print(error.ErrorMessage);}
-            );
+                error => { print(error.ErrorMessage); }
+            ); PlayFabClientAPI.GetPlayerStatistics(
+              new GetPlayerStatisticsRequest(),
+              statisticsResult => {
+                  foreach (var statistic in
+                      statisticsResult.Statistics.Where(statistic => statistic.StatisticName == "Weekly")) {
+                      statistic.Value = PlayerPrefs.GetInt("BestScore");
+                         PlayerPrefs.SetInt("BestScore", statistic.Value);
+                        print("Players high score on server is " + statistic.Value);
+                      StartCoroutine(LoadNextScene());
+                      return;
+                  }
+
+                  print("No high score variable was found. So setting high score value to zero");
+                    // PlayerPrefs.SetInt("BestScore", 0);
+                    Debug.Log("Scores are" + PlayerPrefs.GetInt("BestScore"));
+                  StartCoroutine(LoadNextScene());
+              },
+              error => { print(error.ErrorMessage); }
+          );
         }
 
         private void OnLoginFailure(PlayFabError error)

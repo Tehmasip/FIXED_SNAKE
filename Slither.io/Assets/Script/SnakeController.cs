@@ -156,9 +156,11 @@ public class SnakeController : MonoBehaviour
             photonView = GetComponent<PhotonView>();
             if (this.photonView.IsMine && StartEat)
             {
+                
                 MultiPlayerController.Instance.ScoreI = MultiPlayerController.Instance.ScoreI+5;
                 MultiPlayerController.Instance.LengthI++;
                 MultiPlayerController.Instance.Score.text = "SCORE : " + MultiPlayerController.Instance.ScoreI;
+                PlayerPrefs.SetInt("BestScore", PlayerPrefs.GetInt("BestScore")+ MultiPlayerController.Instance.ScoreI);Debug.Log(PlayerPrefs.GetInt("BestScore"));
                 MultiPlayerController.Instance.Length.text = "LENGTH : " + MultiPlayerController.Instance.LengthI;
                 this.photonView.RPC("AddBodyElement", RpcTarget.AllBuffered);
             }

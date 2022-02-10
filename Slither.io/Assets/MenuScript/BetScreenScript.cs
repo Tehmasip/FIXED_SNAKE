@@ -79,6 +79,7 @@ namespace MenuScript
             print("Amount is being processed as the amount was correct");
             //Subtracting bet amount to 
             m_TokensInInventory -= m_CurrentBetAmount;
+            Debug.Log("token value"+ m_TokensInInventory);
             PlayerPrefs.SetFloat("PlayerTokens", m_TokensInInventory);
             
             //Updating player data on playfab backend
@@ -121,9 +122,10 @@ namespace MenuScript
         /// Loads the text and displays it
         /// </summary>
         private void LoadTokensInInventoryAndDisplay()
-        {
+        {    
             if (PlayerPrefs.HasKey("PlayerTokens") == false)
             {
+                Debug.Log("here setting tokens value");
                 //Updating player data on playfab backend
                 var request = new UpdateUserDataRequest
                 {
@@ -149,7 +151,7 @@ namespace MenuScript
                 return;
             }
             
-            m_TokensInInventory = PlayerPrefs.GetFloat("PlayerTokens", 55.5f);
+            m_TokensInInventory = PlayerPrefs.GetFloat("PlayerTokens");
             tokenDisplay.text = m_TokensInInventory.ToString();
             
             PlayFabClientAPI.GetUserData(
@@ -157,6 +159,7 @@ namespace MenuScript
                 result =>
                 {
                     print("Successfully retrieved data from the servers for tokens");
+                    Debug.Log(result.Data["TokensCollected"].Value);
                     float tokensFromServer = float.Parse(result.Data["TokensCollected"].Value);
                     m_TokensInInventory = tokensFromServer;
                     tokenDisplay.text = tokensFromServer.ToString();

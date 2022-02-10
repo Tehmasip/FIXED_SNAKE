@@ -223,6 +223,10 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public int MaxServers;
         /// <summary>
+        /// Regional override for the number of multiplayer servers to host on a single VM of the build.
+        /// </summary>
+        public int? MultiplayerServerCountPerVm;
+        /// <summary>
         /// The build region.
         /// </summary>
         public string Region;
@@ -239,6 +243,10 @@ namespace PlayFab.MultiplayerModels
         /// Unhealthy, Deleting, Deleted.
         /// </summary>
         public string Status;
+        /// <summary>
+        /// Regional override for the VM size the build was created on.
+        /// </summary>
+        public AzureVmSize? VmSize;
     }
 
     [Serializable]
@@ -253,6 +261,10 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public int MaxServers;
         /// <summary>
+        /// Regional override for the number of multiplayer servers to host on a single VM of the build.
+        /// </summary>
+        public int? MultiplayerServerCountPerVm;
+        /// <summary>
         /// The build region.
         /// </summary>
         public string Region;
@@ -264,6 +276,10 @@ namespace PlayFab.MultiplayerModels
         /// The number of standby multiplayer servers for the region.
         /// </summary>
         public int StandbyServers;
+        /// <summary>
+        /// Regional override for the VM size the build was created on.
+        /// </summary>
+        public AzureVmSize? VmSize;
     }
 
     [Serializable]
@@ -3510,19 +3526,9 @@ namespace PlayFab.MultiplayerModels
     public class ShutdownMultiplayerServerRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// The guid string build ID of the multiplayer server to delete.
-        /// </summary>
-        [Obsolete("No longer available", true)]
-        public string BuildId;
-        /// <summary>
         /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         /// </summary>
         public Dictionary<string,string> CustomTags;
-        /// <summary>
-        /// The region of the multiplayer server to shut down.
-        /// </summary>
-        [Obsolete("No longer available", true)]
-        public string Region;
         /// <summary>
         /// A guid string session ID of the multiplayer server to shut down.
         /// </summary>

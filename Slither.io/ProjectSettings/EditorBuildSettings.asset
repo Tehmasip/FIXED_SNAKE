@@ -13,7 +13,7 @@ EditorBuildSettings:
     guid: ef6a032c4ab3fd916a4084cb133b6015
   - enabled: 1
     path: Assets/Scenes/Menu.unity
-    guid: 3bd81430c628644ff93560f6db8de62b
+    guid: c2dd96fd7bbc24e42a10eee47a9ca2b8
   - enabled: 1
     path: Assets/Scenes/Slither.io.unity
     guid: 83ed4f3a8fb99e54a8bfe26c80b8709d
@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LoadingPhotonKill.unity
     guid: 535c43e95656229a793d2e5b25b58f0a
+  - enabled: 1
+    path: Assets/Scenes/Menu111.unity
+    guid: 3bd81430c628644ff93560f6db8de62b
   m_configObjects: {}

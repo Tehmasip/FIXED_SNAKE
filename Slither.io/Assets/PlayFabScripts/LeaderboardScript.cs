@@ -42,7 +42,7 @@ namespace PlayFabScripts
             //Setting up client leaderboard request
             var leaderBoardRequest = new GetLeaderboardRequest
             {
-                StatisticName = "highScore",
+                StatisticName = "Weekly",
                 MaxResultsCount = 10,
             };
             
@@ -79,7 +79,7 @@ namespace PlayFabScripts
             //Setting up client leaderboard request
             var leaderBoardRequest = new GetLeaderboardAroundPlayerRequest()
             {
-                StatisticName = "highScore",
+                StatisticName = "Daily",
                 MaxResultsCount = 10,
             };
             
@@ -88,6 +88,7 @@ namespace PlayFabScripts
                 leaderBoardRequest,
                 result =>
                 {
+                    
                     foreach (var leaderboardEntry in result.Leaderboard)
                     {
                         //Spawning board item
@@ -104,8 +105,8 @@ namespace PlayFabScripts
 
         private void OnEnable()
         {
-            LoadTopLeaderboard();
-            LoadAroundLeaderboard();
+            //LoadTopLeaderboard();
+            //LoadAroundLeaderboard();
         }
     }
 }
