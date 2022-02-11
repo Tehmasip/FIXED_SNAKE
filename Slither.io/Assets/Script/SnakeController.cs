@@ -160,7 +160,9 @@ public class SnakeController : MonoBehaviour
                 MultiPlayerController.Instance.ScoreI = MultiPlayerController.Instance.ScoreI+5;
                 MultiPlayerController.Instance.LengthI++;
                 MultiPlayerController.Instance.Score.text = "SCORE : " + MultiPlayerController.Instance.ScoreI;
-                PlayerPrefs.SetInt("BestScore", PlayerPrefs.GetInt("BestScore")+ MultiPlayerController.Instance.ScoreI);Debug.Log(PlayerPrefs.GetInt("BestScore"));
+                if (MultiPlayerController.Instance.ScoreI > PlayerPrefs.GetInt("BestScore")) {
+                PlayerPrefs.SetInt("BestScore",  MultiPlayerController.Instance.ScoreI);
+                }
                 MultiPlayerController.Instance.Length.text = "LENGTH : " + MultiPlayerController.Instance.LengthI;
                 this.photonView.RPC("AddBodyElement", RpcTarget.AllBuffered);
             }
