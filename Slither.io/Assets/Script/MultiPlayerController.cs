@@ -36,27 +36,24 @@ public class MultiPlayerController : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
+        if(Instance == null)
+           Instance = this;
     }
+
     void Start()
     {
         photonView = this.GetComponent<PhotonView>();
+
         if (PhotonNetwork.IsMasterClient)
         {
             GenerateFood();
         }
-
-        //if (photonView.IsMine)
-        //{
-            PlayerName.text = PhotonNetwork.NickName;
-            Score.text = "SCORE : " + ScoreI;
-            Length.text = "LENGTH : " + LengthI;
-        //}
+        PlayerName.text = PhotonNetwork.NickName;
+        Score.text = "SCORE : " + ScoreI;
+        Length.text = "LENGTH : " + LengthI;
         SpawnPlayers();
     }
 
-   
     private void GenerateFood()
     {
         for(int i = 0; i < 100; i++)
@@ -77,21 +74,17 @@ public class MultiPlayerController : MonoBehaviourPunCallbacks
                     foodPos = new Vector3(Random.Range(-120, 120), Random.Range(-120, 120), 0);
 
                     FoodSpots[i] = foodPos;
-             }
+            }
         }
-
-
-
         this.photonView.RPC("FoodSpawner", RpcTarget.All ,FoodSpots.ToArray());
     }
 
     [PunRPC]
-    public void FoodSpawner(Vector3[] arr)
+    public void FoodSpawner (Vector3[] arr)
     {
         if (FoodEnter == false)
         {
             FoodEnter = true;
-
             for (int i = 0; i < arr.Length; i++)
             {
                 var newFood = Instantiate(foodGenerateTarget[Random.Range(1, 4)], arr[i], Quaternion.identity);
@@ -116,14 +109,14 @@ public class MultiPlayerController : MonoBehaviourPunCallbacks
             Debug.Log("PAPA KI PAR AGAIN");
             for (int i = 0; i < arr.Length; i++)
             {
-                
                 var newFood = Instantiate(foodGenerateTarget[Random.Range(1, 4)], arr[i],
                               Quaternion.identity);
-
                 newFood.transform.parent = GameObject.Find("Foods").transform;
+
+                newFood.GetComponent<FoodInfo>().Fnum = i;
                 curAmountOfFood++;
                 FoodSpots[i] = arr[i];
-                FoodBool = Fbools;
+                FoodBool[i] = Fbools[i];
 
                 if (Fbools[i] == true)
                 {
@@ -147,13 +140,10 @@ public class MultiPlayerController : MonoBehaviourPunCallbacks
         }
         cam.target = player.transform;
         cameraFollow.GetComponent<CameraFollow>().target = player.transform;
-
         MiniCam.target = player.transform;
         MiniCam.enabled = true;
         cameraFollow.GetComponent<CameraFollow>().enabled = true;
         Debug.Log("active"+ cameraFollow.GetComponent<CameraFollow>().enabled);
-
-      
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -161,9 +151,7 @@ public class MultiPlayerController : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
         if (PhotonNetwork.IsMasterClient)
         {
-
             this.photonView.RPC("AgainSpawnFood", RpcTarget.All, FoodSpots.ToArray(),FoodBool);
-            
         }
     }
 }

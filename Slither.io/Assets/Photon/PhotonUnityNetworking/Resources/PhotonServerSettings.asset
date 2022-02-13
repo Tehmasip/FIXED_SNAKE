@@ -38,6 +38,7 @@ MonoBehaviour:
   - AddBodyPartWithViewId
   - AgainSpawnFood
   - ApplyHeadRotationOnForeignPlayer
+  - BoostSpeed
   - ClickRpc
   - ColorSnakeRPC
   - DeactivateSnakeBodies
@@ -63,7 +64,7 @@ MonoBehaviour:
   - SpawnTokenOnNetworkWithBetValue
   - StartOnForeignPlayer
   - StopMultiplayerRunGenerateFoodItemRoutine
-  - BoostSpeed
+  - SetWholeBodySpots
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

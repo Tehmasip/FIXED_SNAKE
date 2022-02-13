@@ -19,7 +19,7 @@ using Random = UnityEngine.Random;
 using System.Runtime.InteropServices;
 
 
-public class SnakeController : MonoBehaviour
+public class SnakeController : MonoBehaviourPunCallbacks
 {
     [DllImport("__Internal")]
     private static extern bool IsMobile();
@@ -31,17 +31,17 @@ public class SnakeController : MonoBehaviour
 #endif
         return false;
     }
-
+    
     public GameObject CF2Controls;
     public GameObject Food;
     public GameObject BodyPrefeb;
     private Vector3 pointInWorld, mousePosition, direction, pointInWorldForeignLagCompensation = new Vector3();
-    private PhotonView photonView;
-    public int snakeWalkSpeed=6;
+    public PhotonView photonView;
+    //public int snakeWalkSpeed=6;
     public GameObject _multiPlayerCamera;
   //  public GameObject ControlFreak2;
     private readonly float radius = 20.0f;
-    private readonly float snakeRunSpeed = 8.0f; // Called in SnakeRun()
+    private float snakeRunSpeed = 3.0f; // Called in SnakeRun()
 
     bool StartEat;
     // Start is called before the first frame update
@@ -127,7 +127,7 @@ public class SnakeController : MonoBehaviour
     }
     private void SnakeMove() {
 
-        transform.position += transform.forward * snakeWalkSpeed * Time.deltaTime;
+        transform.position += transform.forward * snakeRunSpeed * Time.deltaTime;
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
     private void MovePlayerInputs() {
@@ -139,6 +139,7 @@ public class SnakeController : MonoBehaviour
             mousePosition = new Vector3(transform.position.x + moveHorizontal, transform.position.y + moveVertical, 0);
             direction = Vector3.Slerp(direction, mousePosition - transform.position, Time.deltaTime * 2.5f);
             direction.z = 0;
+
             pointInWorld = direction.normalized * radius + transform.position;
             transform.LookAt(pointInWorld);
         }
@@ -195,40 +196,97 @@ public class SnakeController : MonoBehaviour
             }
         }
     }
+    public float size;
 
     [PunRPC]
     public void AddBodyElement()
     {
         photonView = GetComponent<PhotonView>();
         //  BodyFollow body;
-        if (Bodies.Count == 0)
+
+        if(foodcounter>0)
         {
-            /*BodyFollow body = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeBody0900"),
-                                this.gameObject.transform.position + new Vector3(0, 0, 0),
-                                Quaternion.identity).GetComponent<BodyFollow>();*/
+            foodcounter = 0;
+            if (Bodies.Count == 0)
+            {
+                
+                /*BodyFollow body = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeBody0900"),
+                                    this.gameObject.transform.position + new Vector3(0, 0, 0),
+                                    Quaternion.identity).GetComponent<BodyFollow>();*/
 
-            BodyFollow body = Instantiate(BodyPrefeb, this.gameObject.transform.position + new Vector3(0, 0, 0),
-                                Quaternion.identity).GetComponent<BodyFollow>();
+                BodyFollow body = Instantiate(BodyPrefeb, this.gameObject.transform.position + new Vector3(0, 0, 0),
+                                    Quaternion.identity).GetComponent<BodyFollow>();
 
-            body.Target = this.gameObject.transform;
+                body.Target = this.gameObject.transform;
 
-            Bodies.Add(body.gameObject.transform);
+                Bodies.Add(body.gameObject.transform);
 
-            body.gameObject.name = this.photonView.ViewID + "body";
+                body.gameObject.name = this.photonView.ViewID + "body";
+
+                body.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = Bodies.Count;
+                
+            }
+            else
+            {
+                //if (Bodies[0].GetComponent<BodyFollow>().smoothTime < 0.19f)
+                if (size < 2.1f)
+                    MultiPlayerController.Instance.cameraFollow.GetComponent<CameraFollow>().size = 10f + (float)((float)Bodies.Count/1.2f);
+                
+                if (size < 2.1f)
+                {
+
+                    size = 1f + (float)(Bodies.Count / 10f);
+                }
+
+                BodyFollow body = Instantiate(BodyPrefeb, Bodies[Bodies.Count - 1].position,
+                                    Quaternion.identity).GetComponent<BodyFollow>();
+
+                body.Target = Bodies[Bodies.Count - 1];
+
+                Bodies.Add(body.gameObject.transform);
+
+                body.gameObject.name = this.photonView.ViewID + "body";
+                body.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = Bodies.Count;
+                this.gameObject.transform.localScale = new Vector3(size, size, size);
+                
+                //   if (Bodies[0].GetComponent<BodyFollow>().smoothTime < 0.19f)
+                if (size < 2.1f)
+                {
+                    for (int i = 0; i < Bodies.Count; i++)
+                    {
+                        if (i == 0)
+                        {
+
+                            Bodies[i].localScale = new Vector3(size, size, size);
+                            Bodies[i].GetComponent<BodyFollow>().smoothTime = 0.1f + ((float)Bodies.Count / 300);
+                            Bodies[i].GetComponent<BodyFollow>().smoothTime += (Bodies[i].GetComponent<BodyFollow>().smoothTime / 3f);
+                        }
+                        else
+                        {
+
+                            Bodies[i].localScale = new Vector3(size, size, size);
+                            Bodies[i].GetComponent<BodyFollow>().smoothTime = 0.1f + ((float)Bodies.Count / 300);
+                        }
+                    }
+
+                    snakeRunSpeed = snakeRunSpeed + (float)(((float)Bodies.Count - 1f) / 10f);
+                }
+                else
+                {
+                    body.gameObject.transform.localScale = new Vector3(size, size, size);
+                    body.GetComponent<BodyFollow>().smoothTime = Bodies[0].GetComponent<BodyFollow>().smoothTime;
+                }
+
+                
+               // snakeRunSpeed = snakeRunSpeed + (float)(((float)Bodies.Count - 1f)/10f);
+            }
         }
         else
         {
-            BodyFollow body = Instantiate(BodyPrefeb, Bodies[Bodies.Count - 1].position,
-                                Quaternion.identity).GetComponent<BodyFollow>();
-
-            body.Target = Bodies[Bodies.Count - 1];
-
-            Bodies.Add(body.gameObject.transform);
-
-            body.gameObject.name = this.photonView.ViewID + "body";
+            foodcounter++;
         }
-        
     }
+    int foodcounter=1;
     [PunRPC]
     public void DestroySnake()
     {
@@ -261,13 +319,35 @@ public class SnakeController : MonoBehaviour
     [PunRPC]
     public void BoostSpeed()
     {
-        snakeWalkSpeed = 12;
+        //snakeWalkSpeed = 12;
         StartCoroutine(BoostTime());
     }
     IEnumerator BoostTime()
     {
-
         yield return new WaitForSeconds(3);
-        snakeWalkSpeed = 8;
+       // snakeWalkSpeed = 8;
+    }
+    [PunRPC]
+    public void SetWholeBodySpots( Vector3[] pos)
+    {
+        for (int i = 0; i < pos.Length; i++)
+        {
+            Bodies[i].position = pos[i];
+        }
+    }
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            List<Vector3> BodySpots = new List<Vector3>();
+
+            for(int i = 0;i<Bodies.Count;i++)
+            {
+                BodySpots.Add(Bodies[i].position);
+            }
+            this.photonView.RPC("SetWholeBodySpots", RpcTarget.All, BodySpots.ToArray());
+        }
     }
 }

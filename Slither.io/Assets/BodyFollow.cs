@@ -5,7 +5,7 @@ using UnityEngine;
 public class BodyFollow : MonoBehaviour
 {
     public Transform Target;
-    public float smoothTime = 0.2f;
+    public float smoothTime;
     private Vector3 movementVelocity;
     // Start is called before the first frame update
     Collider col;
@@ -19,18 +19,18 @@ public class BodyFollow : MonoBehaviour
     {
         if(Target!=null)
         {
-            if( Vector3.Distance(this.transform.position , Target.transform.position) > 1.5 )
+          /*  if( Vector3.Distance(this.transform.position , Target.transform.position) > 30 * smoothTime)
             {
                 col.enabled = false;
 
                 transform.position = Target.position;
             }
             else
-            {
+            {*/
                 col.enabled = true;
                 transform.position = Vector3.SmoothDamp(transform.position,
                          Target.position, ref movementVelocity, smoothTime);
-            }
+           // }
 
         }
     }
