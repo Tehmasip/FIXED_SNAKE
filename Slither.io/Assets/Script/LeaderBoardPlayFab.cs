@@ -39,13 +39,27 @@ public class LeaderBoardPlayFab : MonoBehaviour {
         if (string.IsNullOrEmpty(PlayFabSettings.TitleId)) {
             PlayFabSettings.TitleId = "144"; // Please change this value to your own titleId from PlayFab Game Manager
         }
-        if (PlayerPrefs.HasKey("EMAIL")) {
-            userName = PlayerPrefs.GetString("NAME");
-            userEmail = PlayerPrefs.GetString("EMAIL");
-            userPassword = PlayerPrefs.GetString("PASSWORD");
-            var request = new LoginWithEmailAddressRequest { Email = userEmail, Password = userPassword };
-            PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
-        }
+        /* if (PlayerPrefs.HasKey("EMAIL")) {
+             userName = PlayerPrefs.GetString("NAME");
+             userEmail = PlayerPrefs.GetString("EMAIL");
+             userPassword = PlayerPrefs.GetString("PASSWORD");
+             var request = new LoginWithEmailAddressRequest { Email = userEmail, Password = userPassword };
+             PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
+         }*/
+    }
+
+    public InputField inputField;
+    public string abc;
+    public void inin()
+    {
+        abc = inputField.text;
+        
+    }
+
+    public void goIn()
+    {
+        var request = new LoginWithCustomIDRequest { CustomId = PlayerPrefs.GetString("Account"), CreateAccount = true };
+        PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
     }
     private void OnLoginSuccess(LoginResult result) {
         Debug.Log("Congratulations, you made your first successful API call!");
