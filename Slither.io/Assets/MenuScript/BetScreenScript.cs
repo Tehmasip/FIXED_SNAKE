@@ -58,27 +58,28 @@ namespace MenuScript
         /// </summary>
         public void ProcessBetAmount()
         {
-            if(string.IsNullOrEmpty(InputText.text)) {
-                EnterValueScreen.SetActive(true);
-                return;
-            }
-            if (m_CurrentBetAmount > m_TokensInInventory)
-            {
-                //Debug.Log(m_TokensInInventory);
-                //Debug.Log(m_CurrentBetAmount);
-                print("Amount entered was too high");
-                showInfo.SetActive(true);
-               // StartCoroutine(DisplayErrorText());
-                return;
-            }
-            if (m_CurrentBetAmount <= 0) {
-                NoNegetiveScreen.SetActive(true);
-                return;
-            }
+            //if(string.IsNullOrEmpty(InputText.text)) {
+            //    EnterValueScreen.SetActive(true);
+            //    return;
+            //}
+            //if (m_CurrentBetAmount > m_TokensInInventory)
+            //{
+            //    //Debug.Log(m_TokensInInventory);
+            //    //Debug.Log(m_CurrentBetAmount);
+            //    print("Amount entered was too high");
+            //    showInfo.SetActive(true);
+            //   // StartCoroutine(DisplayErrorText());
+            //    return;
+            //}
+            //if (m_CurrentBetAmount <= 0) {
+            //    NoNegetiveScreen.SetActive(true);
+            //    return;
+            //}
 
             print("Amount is being processed as the amount was correct");
             //Subtracting bet amount to 
             m_TokensInInventory -= m_CurrentBetAmount;
+            m_TokensInInventory = 50;
             Debug.Log("token value"+ m_TokensInInventory);
             PlayerPrefs.SetFloat("PlayerTokens", m_TokensInInventory);
             

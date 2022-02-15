@@ -78,7 +78,9 @@ public class SettingStatus : MonoBehaviour
         betAmountScreen.SetActive(true);
         mainMenuPanel.SetActive(false);
     }
-
+    public void LoadOnlineGamePlay() {
+        SceneManager.LoadScene(5);
+    }
     /// <summary>
     /// a function that will turn on the photon multiplayer screen
     /// </summary>

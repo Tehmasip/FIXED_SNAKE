@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12754,7 +12754,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1152364578
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13217,7 +13217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1262370790
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16596,7 +16596,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1940810327
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17636,7 +17636,11 @@ MonoBehaviour:
   leaderBoardInstance: {fileID: 5330524411260003157, guid: cc528a5906dd5b2b895ad2ed94803a1f,
     type: 3}
   DailyLeaderContent: {fileID: 994869327}
+  EnterCompleteInfoScreen: {fileID: 0}
+  PlayerDetailScreen: {fileID: 0}
   WeeklyLeaderContent: {fileID: 2096195709}
+  inputField: {fileID: 0}
+  abc: 
   playerScore: 0
 --- !u!4 &2104400576
 Transform:
