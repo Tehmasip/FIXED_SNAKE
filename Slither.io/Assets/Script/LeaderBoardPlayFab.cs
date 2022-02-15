@@ -18,10 +18,13 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     public GameObject ErrorScreen;
     public GameObject leaderBoardInstance;
     public GameObject DailyLeaderContent;
+    public GameObject EnterCompleteInfoScreen;
+    public GameObject PlayerDetailScreen;
     public GameObject WeeklyLeaderContent;
     private string userEmail;
     private string userPassword;
     private string userName;
+    private int playerLogin;
     private void OnEnable() {
         if (LeaderBoardPlayFab.leaderBoard == null) {
             LeaderBoardPlayFab.leaderBoard = this;
@@ -32,7 +35,14 @@ public class LeaderBoardPlayFab : MonoBehaviour {
         }
       //  DontDestroyOnLoad(this.gameObject);
     }
-
+    public void CheckPlayerDetail() {
+        if ((!string.IsNullOrEmpty(userNameText.text))&&(!string.IsNullOrEmpty(userEmailText.text))) {
+            SetUserNameAndEmail();
+            PlayerDetailScreen.SetActive(false);
+        } else {
+            EnterCompleteInfoScreen.SetActive(true);
+        }
+    }
     #region Login
     public void Start() {
         //Note: Setting title Id here can be skipped if you have set the value in Editor Extensions already.
@@ -55,9 +65,9 @@ public class LeaderBoardPlayFab : MonoBehaviour {
         abc = inputField.text;
         
     }
-
+    
     public void goIn()
-    {
+    { PlayerPrefs.SetString("Account","uzxrtyaq268");
         var request = new LoginWithCustomIDRequest { CustomId = PlayerPrefs.GetString("Account"), CreateAccount = true };
         PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
     }
@@ -65,30 +75,67 @@ public class LeaderBoardPlayFab : MonoBehaviour {
         Debug.Log("Congratulations, you made your first successful API call!");
         PlayerPrefs.SetString("NAME", userName);
         PlayerPrefs.SetString("EMAIL", userEmail);
-        PlayerPrefs.SetString("PASSWORD", userPassword);
+        // PlayerPrefs.SetString("PASSWORD", userPassword);
+        GetUserData(result.PlayFabId);
         GetSats(); GetSatsWeekly();
         loginScreen.SetActive(false);
         SuccessfulyLoginScreen.SetActive(true);
     }
-    private void OnRegisterSuccess(RegisterPlayFabUserResult result) {
-        Debug.Log("Congratulations, you made your first successful API call!");
-        PlayerPrefs.SetString("EMAIL", userEmail);
-        PlayerPrefs.SetString("NAME", userName);
-        PlayerPrefs.SetString("PASSWORD", userPassword);
-        PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest { DisplayName = userName }, OnDisplayName, OnLoginFailure);
-        GetSats(); GetSatsWeekly();
-        loginScreen.SetActive(false);
-        SuccessfulyLoginScreen.SetActive(true);
+    void SetUserData(string s) {
+        PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest() {
+            Data = new Dictionary<string,string>() {
+            {"playerLogin",s},
+        }
+        },
+        result => Debug.Log("Successfully updated player login data"),
+        error => {
+            Debug.Log("Got error setting user data Ancestor to Arthur");
+            Debug.Log(error.GenerateErrorReport());
+        });
     }
-    private void OnRegisterfailure(PlayFabError error) {
-        StartCoroutine(DisplayError(error.GenerateErrorReport()));
-     //   Debug.Log(error.GenerateErrorReport());
+    void GetUserData(string myPlayFabeId) {
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest() {
+            PlayFabId = myPlayFabeId,
+            Keys = null
+        }, result => {
+            Debug.Log("Got user data:");
+            if (result.Data == null || result.Data.ContainsKey("playerLogin")) {
+                if (!((result.Data["playerLogin"].Value) == "b")) {
+                    PlayerDetailScreen.SetActive(true); SetUserData("b");
+                } 
+                Debug.Log(" player login"+ result.Data["playerLogin"].Value); } 
+            else { Debug.Log("No Values: " ); PlayerDetailScreen.SetActive(true); SetUserData("b");
+            }
+        }, (error) => {
+            Debug.Log("Got error retrieving user data:");
+            Debug.Log(error.GenerateErrorReport());
+        });
+    }
+    private void SetUserNameAndEmail() {
+        PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest { DisplayName = userNameText.text }, OnDisplayName, OnLoginFailure);
+        PlayFabClientAPI.AddOrUpdateContactEmail(new AddOrUpdateContactEmailRequest { EmailAddress = userEmailText.text }, OnDisplayEmail, OnLoginFailure);
+        GetSats();
     }
     private IEnumerator DisplayError(string error) {
         ErrorScreen.SetActive(true);
         errorMessgaeText.text = error;
         yield return new WaitForSeconds(2);
         ErrorScreen.SetActive(false);
+    }
+    private void OnRegisterSuccess(RegisterPlayFabUserResult result) {
+        Debug.Log("Congratulations, you made your first successful API call!");
+        //PlayerPrefs.SetString("EMAIL", userEmail);
+        //PlayerPrefs.SetString("NAME", userName);
+        //PlayerPrefs.SetString("PASSWORD", userPassword);
+        //PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest { DisplayName = userName }, OnDisplayName, OnLoginFailure);
+        GetSats(); GetSatsWeekly();
+        loginScreen.SetActive(false);
+        //if())
+        SuccessfulyLoginScreen.SetActive(true);
+    }
+    private void OnRegisterfailure(PlayFabError error) {
+        StartCoroutine(DisplayError(error.GenerateErrorReport()));
+        //   Debug.Log(error.GenerateErrorReport());
     }
     private void OnLoginFailure(PlayFabError error) {
         var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = userPassword, Username = userName };
@@ -97,8 +144,11 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     private void OnDisplayName(UpdateUserTitleDisplayNameResult result) {
         Debug.Log(result.DisplayName + "is your new display name");
     }
+    private void OnDisplayEmail(AddOrUpdateContactEmailResult results) {
+        Debug.Log(results.CustomData+"is your email");
+    }
     public void GetUserEmail() {
-        userEmail = userEmailText.text; Debug.Log(userEmail);
+        userEmail = userEmailText.text; //Debug.Log(userEmail);
     }
     public void GetUsername() {
         userName = userNameText.text;
@@ -118,7 +168,7 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     public int playerScore;
     #region PlayerStatistics
     public void SetStats() {
-        Debug.Log("scrggggggggggggggg"+PlayerPrefs.GetInt("BestScore"));
+        //Debug.Log("scrggggggggggggggg"+PlayerPrefs.GetInt("BestScore"));
         PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest {
             Statistics = new List<StatisticUpdate> {
              new StatisticUpdate{StatisticName="PlayerScores",Value=PlayerPrefs.GetInt("BestScore")}
@@ -137,7 +187,7 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     private void OnGetStats(GetPlayerStatisticsResult result) {
         Debug.Log("Recieved following statistics");
         foreach (var eachStat in result.Statistics) {
-            //Debug.Log("Statictis( " + eachStat.StatisticName + "):" + eachStat.Value);
+            Debug.Log("Statictis( " + eachStat.StatisticName + "):" + eachStat.Value);
             playerScore = eachStat.Value;
         }
     }
@@ -209,7 +259,7 @@ public class LeaderBoardPlayFab : MonoBehaviour {
         GetDailyLeaderBoard();
     }
     private void OnErrorLeaderBoard(PlayFabError error) {
-        Debug.Log(error.GenerateErrorReport());
+        //Debug.log(error.generateerrorreport());
     }
     #endregion LeaderBoard
 }
