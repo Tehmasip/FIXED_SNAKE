@@ -21,6 +21,7 @@ using System.Runtime.InteropServices;
 
 public class SnakeController : MonoBehaviourPunCallbacks
 {
+    public GameObject EATEFFECT;
     [DllImport("__Internal")]
     private static extern bool IsMobile();
 
@@ -41,7 +42,7 @@ public class SnakeController : MonoBehaviourPunCallbacks
     public GameObject _multiPlayerCamera;
   //  public GameObject ControlFreak2;
     private readonly float radius = 20.0f;
-    private float snakeRunSpeed = 3.0f; // Called in SnakeRun()
+    public float snakeRunSpeed = 4f; // Called in SnakeRun()
 
     bool StartEat;
     // Start is called before the first frame update
@@ -157,17 +158,18 @@ public class SnakeController : MonoBehaviourPunCallbacks
             photonView = GetComponent<PhotonView>();
             if (this.photonView.IsMine && StartEat)
             {
-                
                 MultiPlayerController.Instance.ScoreI = MultiPlayerController.Instance.ScoreI+5;
                 MultiPlayerController.Instance.LengthI++;
                 MultiPlayerController.Instance.Score.text = "SCORE : " + MultiPlayerController.Instance.ScoreI;
-                if (MultiPlayerController.Instance.ScoreI > PlayerPrefs.GetInt("BestScore")) {
+                if (MultiPlayerController.Instance.ScoreI > PlayerPrefs.GetInt("BestScore")) 
+                {
                 PlayerPrefs.SetInt("BestScore",  MultiPlayerController.Instance.ScoreI);
                 }
                 MultiPlayerController.Instance.Length.text = "LENGTH : " + MultiPlayerController.Instance.LengthI;
                 this.photonView.RPC("AddBodyElement", RpcTarget.AllBuffered);
             }
-
+            Instantiate(EATEFFECT, collision.transform.position, Quaternion.identity);
+            AudioManager.instance.Play("coin");
         }
         else if(collision.gameObject.tag == "Body")
         {

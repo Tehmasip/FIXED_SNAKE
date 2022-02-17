@@ -68,6 +68,8 @@ public class SettingStatus : MonoBehaviour
             mainMenuPanel.SetActive(false);
             leaderBoardScreen.SetActive(true);
         }
+
+        AudioManager.instance.Play("ButtonClick");
     }
 
     /// <summary>
@@ -75,6 +77,7 @@ public class SettingStatus : MonoBehaviour
     /// </summary>
     public void DisplayBetAmountScreen()
     {
+        AudioManager.instance.Play("ButtonClick");
         betAmountScreen.SetActive(true);
         mainMenuPanel.SetActive(false);
     }

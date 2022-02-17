@@ -26,6 +26,17 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     private string userName;
     private int playerLogin;
     private void OnEnable() {
+        if(AudioManager.instance !=null)
+        if (AudioManager.instance.CheckPlay("GamePlayBG"))
+        {
+            AudioManager.instance.Stop("GamePlayBG");
+            AudioManager.instance.Play("MenuBG");
+        }
+        else
+        {
+            AudioManager.instance.Play("MenuBG");
+        }
+
         if (LeaderBoardPlayFab.leaderBoard == null) {
             LeaderBoardPlayFab.leaderBoard = this;
         } else {
@@ -67,7 +78,7 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     }
     
     public void goIn()
-    { PlayerPrefs.SetString("Account","uzxrtyaq268");
+    { //PlayerPrefs.SetString("Account","uzxrtyaq2633");
         var request = new LoginWithCustomIDRequest { CustomId = PlayerPrefs.GetString("Account"), CreateAccount = true };
         PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
     }
@@ -251,12 +262,15 @@ public class LeaderBoardPlayFab : MonoBehaviour {
         }
     }
     public void ShowLeaderBoard() {
+
+        AudioManager.instance.Play("ButtonClick");
         SetStats();
         GetSats();
         SetStatsWeekly(); 
         LeaderBoardScreen.SetActive(true);
         GetWeeklyLeaderBoard();
         GetDailyLeaderBoard();
+
     }
     private void OnErrorLeaderBoard(PlayFabError error) {
         //Debug.log(error.generateerrorreport());

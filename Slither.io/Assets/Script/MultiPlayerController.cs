@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class MultiPlayerController : MonoBehaviourPunCallbacks
 {
+    public GameObject[] FoodList;
+    public int Time = 10;
     public Text Score;
     public Text Length;
     public Text PlayerName;
@@ -42,18 +44,52 @@ public class MultiPlayerController : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        if (AudioManager.instance.CheckPlay("MenuBG"))
+        {
+            AudioManager.instance.Stop("MenuBG");
+            AudioManager.instance.Play("GamePlayBG");
+        }
+        else
+        {
+            AudioManager.instance.Play("GamePlayBG");
+        }
+
         photonView = this.GetComponent<PhotonView>();
 
         if (PhotonNetwork.IsMasterClient)
         {
             GenerateFood();
         }
+
         PlayerName.text = PhotonNetwork.NickName;
         Score.text = "SCORE : " + ScoreI;
         Length.text = "LENGTH : " + LengthI;
         SpawnPlayers();
+
+
+        InvokeRepeating("ResetFood", 20, 20);
     }
 
+
+    [PunRPC]
+    public void ResetFoodCall()
+    {
+        for (int i = 0; i < FoodSpots.Count; i++)
+        {
+            FoodBool[i] = false;
+            FoodList[i].SetActive(true);
+        }
+    }
+
+    //[PunRPC]
+    public void ResetFood()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+
+            photonView.RPC("ResetFoodCall", RpcTarget.All);
+        }
+    }
     private void GenerateFood()
     {
         for(int i = 0; i < 100; i++)
@@ -89,7 +125,7 @@ public class MultiPlayerController : MonoBehaviourPunCallbacks
             {
                 var newFood = Instantiate(foodGenerateTarget[Random.Range(1, 4)], arr[i], Quaternion.identity);
                 newFood.transform.parent = GameObject.Find("Foods").transform;
-
+                FoodList[i] = newFood.gameObject;
                 newFood.GetComponent<FoodInfo>().Fnum = i;
                 curAmountOfFood++;
                 FoodSpots [i] = arr[i];
@@ -116,6 +152,7 @@ public class MultiPlayerController : MonoBehaviourPunCallbacks
                 newFood.GetComponent<FoodInfo>().Fnum = i;
                 curAmountOfFood++;
                 FoodSpots[i] = arr[i];
+                FoodList[i] = newFood.gameObject;
                 FoodBool[i] = Fbools[i];
 
                 if (Fbools[i] == true)
@@ -153,5 +190,11 @@ public class MultiPlayerController : MonoBehaviourPunCallbacks
         {
             this.photonView.RPC("AgainSpawnFood", RpcTarget.All, FoodSpots.ToArray(),FoodBool);
         }
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        base.OnMasterClientSwitched(newMasterClient);
+
     }
 }
