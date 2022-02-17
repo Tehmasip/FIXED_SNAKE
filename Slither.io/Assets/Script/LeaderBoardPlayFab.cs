@@ -78,7 +78,7 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     }
     
     public void goIn()
-    { //PlayerPrefs.SetString("Account","uzxrtyaq2633");
+    { PlayerPrefs.SetString("Account","uzxrtyaq2633");
         var request = new LoginWithCustomIDRequest { CustomId = PlayerPrefs.GetString("Account"), CreateAccount = true };
         PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
     }
@@ -94,15 +94,16 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     }
     void SetUserData(string s) {
         PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest() {
-            Data = new Dictionary<string,string>() {
+            Data = new Dictionary<string, string>() {
             {"playerLogin",s},
+            {"MetaID",PlayerPrefs.GetString("Account") }
         }
         },
         result => Debug.Log("Successfully updated player login data"),
         error => {
             Debug.Log("Got error setting user data Ancestor to Arthur");
             Debug.Log(error.GenerateErrorReport());
-        });
+        }) ;
     }
     void GetUserData(string myPlayFabeId) {
         PlayFabClientAPI.GetUserData(new GetUserDataRequest() {
