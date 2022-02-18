@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0199c11aa6f514784c5c69cd8378d8, type: 3}
   m_Name: PlayFabEditorPrefsSO
   m_EditorClassIdentifier: 
-  DevAccountEmail: tehmasipsen0900@gmail.com
-  DevAccountToken: 
+  DevAccountEmail: zunaira.nazir30@gmail.com
+  DevAccountToken: mpy51e1gd8y57oo6x4ggii8pyamhhkfuqizs11r7d6yff9g4bw3n4xbfi1q8gj9o3g8gsiw4j5dhh3agx6xt66wm8g9cph5umjbems7pniryybnuc4ncqqkatq9jdtzuhxfiz3sswtc3gqt1iysedh336nbbxwd1jh5p53bput99rt8dgsr37j95unda13q6ur94of93
   SelectedStudio: _OVERRIDE_
   SdkPath: Assets/PlayFabSDK
   EdExPath: 

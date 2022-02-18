@@ -9,11 +9,13 @@ using UnityEngine.UI;
 public class LeaderBoardPlayFab : MonoBehaviour {
     public static LeaderBoardPlayFab leaderBoard;
     public Text userEmailText;
+    public Text DisplayIDText;
     public Text userPasswordText;
     public Text userNameText;
     public Text errorMessgaeText;
     public GameObject loginScreen;
     public GameObject SuccessfulyLoginScreen;
+    public GameObject WaitingScreen;
     public GameObject LeaderBoardScreen;
     public GameObject ErrorScreen;
     public GameObject leaderBoardInstance;
@@ -78,7 +80,7 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     }
     
     public void goIn()
-    {//PlayerPrefs.SetString("Account","qwercvb1234ffffmjghgh");
+    {//PlayerPrefs.SetString("Account","qwaaqq222aercvb1234ffffmjghgh");
         var request = new LoginWithCustomIDRequest { CustomId = PlayerPrefs.GetString("Account"), CreateAccount = true };
         PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
     }
@@ -86,11 +88,13 @@ public class LeaderBoardPlayFab : MonoBehaviour {
         Debug.Log("Congratulations, you made your first successful API call!");
         PlayerPrefs.SetString("NAME", userName);
         PlayerPrefs.SetString("EMAIL", userEmail);
+        DisplayIDText.text = "MetaID " + PlayerPrefs.GetString("Account");
         // PlayerPrefs.SetString("PASSWORD", userPassword);
         GetUserData(result.PlayFabId);
         GetSats(); GetSatsWeekly();
         loginScreen.SetActive(false);
-        SuccessfulyLoginScreen.SetActive(true);
+        WaitingScreen.SetActive(true);
+       // SuccessfulyLoginScreen.SetActive(true);
     }
     void SetUserData(string s) {
         PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest() {
@@ -113,8 +117,12 @@ public class LeaderBoardPlayFab : MonoBehaviour {
             Debug.Log("Got user data:");
             if (result.Data == null || result.Data.ContainsKey("playerLogin")) {
                 if (!((result.Data["playerLogin"].Value) == "b")) {
-                    PlayerDetailScreen.SetActive(true); SetUserData("b");
-                } 
+                    PlayerDetailScreen.SetActive(true);
+                    SetUserData("b");
+                } else {
+                    WaitingScreen.SetActive(false);
+                    SuccessfulyLoginScreen.SetActive(true);
+                }
                 Debug.Log(" player login"+ result.Data["playerLogin"].Value); } 
             else { Debug.Log("No Values: " ); PlayerDetailScreen.SetActive(true); SetUserData("b");
             }
@@ -155,6 +163,7 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     }
     private void OnDisplayName(UpdateUserTitleDisplayNameResult result) {
         Debug.Log(result.DisplayName + "is your new display name");
+        SuccessfulyLoginScreen.SetActive(true);
     }
     private void OnDisplayEmail(AddOrUpdateContactEmailResult results) {
         Debug.Log(results.CustomData+"is your email");
