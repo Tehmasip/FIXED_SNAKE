@@ -78,7 +78,7 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     }
     
     public void goIn()
-    { PlayerPrefs.SetString("Account","uzxrtyaq2633");
+    {//PlayerPrefs.SetString("Account","qwercvb1234ffffmjghgh");
         var request = new LoginWithCustomIDRequest { CustomId = PlayerPrefs.GetString("Account"), CreateAccount = true };
         PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
     }
@@ -150,7 +150,7 @@ public class LeaderBoardPlayFab : MonoBehaviour {
         //   Debug.Log(error.GenerateErrorReport());
     }
     private void OnLoginFailure(PlayFabError error) {
-        var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = userPassword, Username = userName };
+        var registerRequest = new RegisterPlayFabUserRequest { Email = userEmailText.text, Password = userPassword, Username = userNameText.text };
         PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSuccess, OnRegisterfailure);
     }
     private void OnDisplayName(UpdateUserTitleDisplayNameResult result) {
