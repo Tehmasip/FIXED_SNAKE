@@ -2,10 +2,12 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 #if UNITY_WEBGL
 public class WebLogin : MonoBehaviour
 {
+    public Text ID;
     [DllImport("__Internal")]
     private static extern void Web3Connect();
 
@@ -47,6 +49,11 @@ public class WebLogin : MonoBehaviour
         PlayerPrefs.SetString("Account", "");
         // move to next scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void FixedUpdate()
+    {
+        ID.text = PlayerPrefs.GetString("Account");
     }
 }
 #endif

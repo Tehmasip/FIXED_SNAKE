@@ -2,12 +2,30 @@
 using PlayFab.ClientModels;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LeaderBoardPlayFab : MonoBehaviour {
+public class LeaderBoardPlayFab : MonoBehaviour 
+{
+    [DllImport("__Internal")]
+    private static extern bool IsMobile();
+
+    public bool isMobile()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+             return IsMobile();
+#endif
+        return false;
+    }
+
     public static LeaderBoardPlayFab leaderBoard;
+
+    public GameObject ForMobile;
+    public GameObject ForPC;
+
+
     public Text userEmailText;
     public Text DisplayIDText;
     public Text userPasswordText;
@@ -28,7 +46,18 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     private string userName;
     private int playerLogin;
     private void OnEnable() {
-        if(AudioManager.instance !=null)
+
+        if (isMobile())
+        {
+            ForMobile.SetActive(true);
+
+        }
+        else
+        {
+            ForPC.SetActive(true);
+        }
+
+        if (AudioManager.instance !=null)
         if (AudioManager.instance.CheckPlay("GamePlayBG"))
         {
             AudioManager.instance.Stop("GamePlayBG");
@@ -78,9 +107,18 @@ public class LeaderBoardPlayFab : MonoBehaviour {
         abc = inputField.text;
         
     }
-    
+
+    public InputField ip;
+    public void MobileLogin()
+    {
+        PlayerPrefs.SetString("Account",ip.text);
+        goIn();
+    }
+
     public void goIn()
-    {//PlayerPrefs.SetString("Account","qwaaqq222aercvb1234ffffmjghgh");
+    {
+
+        //PlayerPrefs.SetString("Account","qwaaqq222aercvb1234ffffmjghgh");
         var request = new LoginWithCustomIDRequest { CustomId = PlayerPrefs.GetString("Account"), CreateAccount = true };
         PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
     }
