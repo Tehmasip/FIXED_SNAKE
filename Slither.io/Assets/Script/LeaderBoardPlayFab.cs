@@ -320,6 +320,15 @@ public class LeaderBoardPlayFab : MonoBehaviour
         GetDailyLeaderBoard();
 
     }
+    public void UpdateLeaderBoard() {
+
+        SetStats();
+        GetSats();
+        SetStatsWeekly();
+        GetWeeklyLeaderBoard();
+        GetDailyLeaderBoard();
+
+    }
     private void OnErrorLeaderBoard(PlayFabError error) {
         //Debug.log(error.generateerrorreport());
     }
