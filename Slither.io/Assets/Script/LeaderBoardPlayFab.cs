@@ -58,7 +58,6 @@ public class LeaderBoardPlayFab : MonoBehaviour {
     }
     #region Login
     public void Start() {
-        UpdateLeaderBoard();
         //Note: Setting title Id here can be skipped if you have set the value in Editor Extensions already.
         if (string.IsNullOrEmpty(PlayFabSettings.TitleId)) {
             PlayFabSettings.TitleId = "144"; // Please change this value to your own titleId from PlayFab Game Manager
