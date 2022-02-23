@@ -47,14 +47,17 @@ public class LeaderBoardPlayFab : MonoBehaviour
     private int playerLogin;
     private void OnEnable() {
 
+        
         if (isMobile())
         {
+            if(ForMobile != null)
             ForMobile.SetActive(true);
 
         }
         else
         {
-            ForPC.SetActive(true);
+            if (ForPC != null)
+                ForPC.SetActive(true);
         }
 
         if (AudioManager.instance !=null)
