@@ -647,9 +647,10 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
             SnakeGlowing(isRunning);
             SnakeMoveAdjust();
             //##### added by Yue Chen #####
-            countText.text = "G o o d  j o b  !  " + nickName + "\nY o u r  L e n g t h  :  " + length;
-            tokenText.text = "T o k e n s  C o l l e c t e d : " + tokensCollected;
-            snakesKilledText.text = "S n a k e s  K i l l e d : " + numberOfSnakesKilled;
+            //countText.text = "G o o d  j o b  !  " + nickName + "Y o u r  L e n g t h  :  " + length;
+            countText.text = "Length: " + length;
+            tokenText.text = "Tokens Collected: " + tokensCollected;
+            snakesKilledText.text = "Snakes Killed: " + numberOfSnakesKilled;
 
             return;
         }
@@ -661,8 +662,12 @@ public class SnakeMovement : MonoBehaviour, IPunObservable
         SnakeGlowing(isRunning);
         SnakeMoveAdjust();
         //	##### added by Yue Chen #####
-        countText.text = "G o o d  j o b  !  " + nickName + "\nY o u r  L e n g t h  :  " + length;
-        tokenText.text = "T o k e n s  C o l l e c t e d : " + tokensCollected;
+
+        if(countText != null)
+        countText.text = "Length: " + length;
+
+        if(tokenText!=null)
+        tokenText.text = "Tokens Collected: " + tokensCollected;
     }
 
     /* When the head encounters an object, figure out what to do*/

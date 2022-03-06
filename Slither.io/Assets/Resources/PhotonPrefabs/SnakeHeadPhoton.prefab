@@ -90,6 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1678235374345245087}
   - component: {fileID: 8420564818358921226}
+  - component: {fileID: 6027543175462598935}
   m_Layer: 3
   m_Name: SnakeHead
   m_TagString: Untagged
@@ -160,6 +161,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &6027543175462598935
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044702630563646316}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cd8a195f5d60b264995cda273cd3e784, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4525850004990483656
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,7 +337,14 @@ MonoBehaviour:
   _multiPlayerCamera: {fileID: 0}
   snakeRunSpeed: 4
   StopMove: 0
+  Imune: 1
   Bodies: []
+  Anim: {fileID: 6027543175462598935}
+  MyHead: {fileID: 21300000, guid: d51552f6f61206042adea442ff9869de, type: 3}
+  EnemyHead: {fileID: 21300000, guid: 687f81bbdbe6ef24a940d24c2e184f83, type: 3}
+  spriteRenderer: {fileID: 8420564818358921226}
+  MyBody: {fileID: 21300000, guid: d4f68fd68e97dba4cbb09b6d119599a5, type: 3}
+  EnemyBody: {fileID: 21300000, guid: 1ae2cc4c64ea0ee43a42711d8ca1b85d, type: 3}
   size: 0
 --- !u!114 &544063930076179587
 MonoBehaviour:

@@ -27,9 +27,9 @@ public class SnakeController : MonoBehaviourPunCallbacks
 
     public bool isMobile()
     {
-#if !UNITY_EDITOR && UNITY_WEBGL
-             return IsMobile();
-#endif
+    #if !UNITY_EDITOR && UNITY_WEBGL
+                 return IsMobile();
+    #endif
         return false;
     }
     
@@ -48,18 +48,30 @@ public class SnakeController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
 
     public bool StopMove;
+    public bool Imune = true;
     public List<Transform> Bodies;
+    public Animator Anim;
+
+    public Sprite MyHead;
+    public Sprite EnemyHead;
+    public SpriteRenderer spriteRenderer;
+
+    public Sprite MyBody;
+    public Sprite EnemyBody;
+
     void Start()
     {
+        Imune = true;
         _multiPlayerCamera = GameObject.FindGameObjectWithTag("MainCamera");
         //_multiPlayerCamera = transform.GetChild(3).gameObject;
         photonView = GetComponent<PhotonView>(); 
 
         if (photonView.IsMine)
         {
+            spriteRenderer.sprite = MyHead;
+
             this.photonView.RPC("AddBodyElement", RpcTarget.AllBuffered);
 
-            Invoke("StartEatF", 1);
 
             if (isMobile())
             {
@@ -70,16 +82,34 @@ public class SnakeController : MonoBehaviourPunCallbacks
             {
                 CF2Controls = GameObject.FindGameObjectWithTag("CF2Canvas");
                 CF2Controls.SetActive(false);
-                
             }
         }
+        else
+        {
+
+            spriteRenderer.sprite = EnemyHead;
+        }
+
+
+        Invoke("StartEatF", 0.5f);
+
+        Invoke("ReadyToBattle", 5f);
 
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
-
     }
+
     void StartEatF()
     {
         StartEat = true;
+        Debug.Log("KHANAAAA SHURUUUUUU");
+    }
+
+    void ReadyToBattle()
+    {
+
+        Debug.Log("BATTLE SHURUUUUUUUU");
+        Imune = false;
+        Anim.enabled = false;
     }
     // Update is called once per frame
     void Update()
@@ -166,12 +196,14 @@ public class SnakeController : MonoBehaviourPunCallbacks
                 PlayerPrefs.SetInt("BestScore",  MultiPlayerController.Instance.ScoreI);
                 }
                 MultiPlayerController.Instance.Length.text = "LENGTH : " + MultiPlayerController.Instance.LengthI;
+
+                if(MultiPlayerController.Instance.LengthI<200)
                 this.photonView.RPC("AddBodyElement", RpcTarget.AllBuffered);
             }
             Instantiate(EATEFFECT, collision.transform.position, Quaternion.identity);
             AudioManager.instance.Play("coin");
         }
-        else if(collision.gameObject.tag == "Body")
+        else if(collision.gameObject.tag == "Body" && Imune == false)
         {
             if(StartEat == true)
             if(this.photonView.IsMine)
@@ -218,6 +250,7 @@ public class SnakeController : MonoBehaviourPunCallbacks
 
                 BodyFollow body = Instantiate(BodyPrefeb, this.gameObject.transform.position + new Vector3(0, 0, 0),
                                     Quaternion.identity).GetComponent<BodyFollow>();
+                body.snakeController = this;
 
                 body.Target = this.gameObject.transform;
 
@@ -226,7 +259,11 @@ public class SnakeController : MonoBehaviourPunCallbacks
                 body.gameObject.name = this.photonView.ViewID + "body";
 
                 body.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = Bodies.Count;
-                
+
+                if (photonView.IsMine)
+                    body.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = MyBody;
+                else
+                    body.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = EnemyBody;
             }
             else
             {
@@ -242,6 +279,8 @@ public class SnakeController : MonoBehaviourPunCallbacks
 
                 BodyFollow body = Instantiate(BodyPrefeb, Bodies[Bodies.Count - 1].position,
                                     Quaternion.identity).GetComponent<BodyFollow>();
+
+                body.snakeController = this;
 
                 body.Target = Bodies[Bodies.Count - 1];
 
@@ -279,8 +318,13 @@ public class SnakeController : MonoBehaviourPunCallbacks
                     body.GetComponent<BodyFollow>().smoothTime = Bodies[0].GetComponent<BodyFollow>().smoothTime;
                 }
 
-                
-               // snakeRunSpeed = snakeRunSpeed + (float)(((float)Bodies.Count - 1f)/10f);
+
+                if (photonView.IsMine)
+                    body.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = MyBody;
+                else
+                    body.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = EnemyBody;
+
+                // snakeRunSpeed = snakeRunSpeed + (float)(((float)Bodies.Count - 1f)/10f);
             }
         }
         else
@@ -315,7 +359,7 @@ public class SnakeController : MonoBehaviourPunCallbacks
         for(int i = 0; i <= c; i++)
         {
             Destroy(Bodies[i].gameObject);
-        }
+        } 
     }
 
     [PunRPC]

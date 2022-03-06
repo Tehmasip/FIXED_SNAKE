@@ -167,12 +167,12 @@ public class MultiPlayerController : MonoBehaviourPunCallbacks
     private void SpawnPlayers() 
     {
         if (PhotonNetwork.IsMasterClient) {
-            player= PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeHeadPhoton"),
-                           spawnPos.position,
+            player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeHeadPhoton"),
+                             new Vector3(Random.Range(-30, 30), Random.Range(- 30, 30), spawnPos.position.z),
                            spawnPos.rotation);
         } else {
             player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SnakeHeadPhoton"),
-                          spawnPos.position+new Vector3(10,0,0),
+                           new Vector3(Random.Range(-30, 30), Random.Range(-30, 30), spawnPos.position.z),
                           spawnPos.rotation);
         }
         cam.target = player.transform;
