@@ -7,7 +7,7 @@ using UnityEngine.UI;
 #if UNITY_WEBGL
 public class WebLogin : MonoBehaviour
 {
-    public Text ID;
+   // public Text ID;
     [DllImport("__Internal")]
     private static extern void Web3Connect();
 
@@ -20,7 +20,7 @@ public class WebLogin : MonoBehaviour
     private int expirationTime;
     private string account;
 
-    public LeaderBoardPlayFab leaderBoardPlayFab;
+   // public LeaderBoardPlayFab leaderBoardPlayFab;
     public void OnLogin()
     {
         Web3Connect();
@@ -39,8 +39,8 @@ public class WebLogin : MonoBehaviour
         // reset login message
         SetConnectAccount("");
         // load next scene
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        leaderBoardPlayFab.goIn();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+       /////////////////////////////////////////////////////////// leaderBoardPlayFab.goIn();
     }
 
     public void OnSkip()
@@ -50,10 +50,10 @@ public class WebLogin : MonoBehaviour
         // move to next scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
-
+    /*
     public void FixedUpdate()
     {
         ID.text = PlayerPrefs.GetString("Account");
-    }
+    }*/
 }
 #endif
