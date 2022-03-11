@@ -280,7 +280,7 @@ public class LeaderBoardPlayFab : MonoBehaviour
     #endregion
     #region LeaderBoard
     public void GetDailyLeaderBoard() {
-        var requestLeaderBoard = new GetLeaderboardRequest { StartPosition = 0, StatisticName = "PlayerScores", MaxResultsCount = 10 };
+        var requestLeaderBoard = new GetLeaderboardRequest { StartPosition = 0, StatisticName = "PlayerScores", MaxResultsCount = 30 };
         PlayFabClientAPI.GetLeaderboard(requestLeaderBoard, OnGetDailyLeaderBoard, OnErrorLeaderBoard);
     }
     private void OnGetDailyLeaderBoard(GetLeaderboardResult result) {
@@ -296,7 +296,7 @@ public class LeaderBoardPlayFab : MonoBehaviour
         }
     }
     public void GetWeeklyLeaderBoard() {
-        var requestLeaderBoard = new GetLeaderboardRequest { StartPosition = 0, StatisticName = "UpdateWeekly", MaxResultsCount = 10 };
+        var requestLeaderBoard = new GetLeaderboardRequest { StartPosition = 0, StatisticName = "UpdateWeekly", MaxResultsCount = 30 };
         PlayFabClientAPI.GetLeaderboard(requestLeaderBoard, OnGetWeeklyLeaderBoard, OnErrorLeaderBoard);
     }
     private void OnGetWeeklyLeaderBoard(GetLeaderboardResult result) {
