@@ -81,7 +81,8 @@ public class LeaderBoardPlayFab : MonoBehaviour
       //  DontDestroyOnLoad(this.gameObject);
     }
     public void CheckPlayerDetail() {
-        if ((!string.IsNullOrEmpty(userNameText.text))&&(!string.IsNullOrEmpty(userEmailText.text))) {
+        int nameLength= userNameText.text.Length;
+        if ((!string.IsNullOrEmpty(userNameText.text))&&(!string.IsNullOrEmpty(userEmailText.text))&&nameLength>=3) {
             SetUserNameAndEmail();
             PlayerDetailScreen.SetActive(false);
         } else {
@@ -121,7 +122,7 @@ public class LeaderBoardPlayFab : MonoBehaviour
     public void goIn()
     {
 
-        //PlayerPrefs.SetString("Account","qwaaqq222aercvb1234ffffmjghgh");
+       // PlayerPrefs.SetString("Account","DD23sssffsessww11de");
         var request = new LoginWithCustomIDRequest { CustomId = PlayerPrefs.GetString("Account"), CreateAccount = true };
         PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
     }
@@ -220,7 +221,7 @@ public class LeaderBoardPlayFab : MonoBehaviour
     }
     public void OnClickLogin() {
         GetUserEmail(); GetUsername(); GetUserPasword();
-        var request = new LoginWithEmailAddressRequest { Email = userEmail, Password = userPassword };
+        var request = new LoginWithEmailAddressRequest { Email = userEmailText.text, Password = userPassword };
         PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
     }
     #endregion Login
