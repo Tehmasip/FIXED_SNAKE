@@ -287,11 +287,13 @@ public class LeaderBoardPlayFab : MonoBehaviour
        // LeaderBoardScreen.SetActive(true);
         for (int i = 0; i < DailyLeaderContent.transform.childCount; i++) {
             Destroy(DailyLeaderContent.transform.GetChild(i).gameObject);
-        }
+        }int j = 0;
         foreach (PlayerLeaderboardEntry player in result.Leaderboard) {
+            j += 1;
             GameObject playerProperties = Instantiate(leaderBoardInstance, DailyLeaderContent.transform);
             playerProperties.transform.GetChild(0).GetComponent<Text>().text = player.DisplayName;
             playerProperties.transform.GetChild(1).GetComponent<Text>().text = player.StatValue.ToString();
+            playerProperties.transform.GetChild(3).GetComponent<Text>().text = j + " .";
             Debug.Log(player.DisplayName + ":" + player.StatValue);
         }
     }
@@ -304,11 +306,14 @@ public class LeaderBoardPlayFab : MonoBehaviour
         for (int i = 0; i < WeeklyLeaderContent.transform.childCount; i++) {
             Destroy(WeeklyLeaderContent.transform.GetChild(i).gameObject);
         }
+        int j = 0;
         foreach (PlayerLeaderboardEntry player in result.Leaderboard) {
             Debug.Log("weeklyleaderboard");
+            j += 1;
             GameObject playerProperties = Instantiate(leaderBoardInstance, WeeklyLeaderContent.transform);
             playerProperties.transform.GetChild(0).GetComponent<Text>().text = player.DisplayName;
             playerProperties.transform.GetChild(1).GetComponent<Text>().text = player.StatValue.ToString();
+            playerProperties.transform.GetChild(3).GetComponent<Text>().text = j + " .";
             Debug.Log(player.DisplayName + ":" + player.StatValue);
         }
     }
